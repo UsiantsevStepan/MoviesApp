@@ -9,10 +9,10 @@ import Foundation
 
 struct MoviesListData: Decodable {
     let page: Int
-    let results: [Result]
+    let results: [Results]
 }
 
-struct Result: Decodable {
+struct Results: Decodable {
     let posterPath: String?
     let title: String
     let genreIds: [Int]

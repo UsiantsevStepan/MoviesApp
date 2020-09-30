@@ -8,7 +8,7 @@
 import Foundation
 
 public enum ApiEndpoint {
-    case getPopularMovies(page: Int)
+    case getPopularMovies(page: String)
 }
 
 extension ApiEndpoint: EndpointProtocol {
