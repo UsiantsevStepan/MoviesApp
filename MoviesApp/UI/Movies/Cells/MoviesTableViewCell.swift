@@ -18,10 +18,11 @@ class MoviesTableViewCell: UITableViewCell {
     
     private let headerView = UIView()
     private let headerLabel = UILabel()
+    private var movies = [MoviePreviewCellModel]()
+    
     let headerButton = UIButton()
     
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
-    
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -94,17 +95,22 @@ class MoviesTableViewCell: UITableViewCell {
         
         collectionView.reloadData()
     }
+    
+    func configure(_ data: [MoviePreviewCellModel]) {
+        movies = data
+        collectionView.reloadData()
+    }
 }
 
 extension MoviesTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return movies.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.cellId, for: indexPath) as! MoviesCollectionViewCell
-        cell.configure(with: array[indexPath.row])
-        
+        cell.configure(with: movies[indexPath.row])
+
         return cell
     }
 }

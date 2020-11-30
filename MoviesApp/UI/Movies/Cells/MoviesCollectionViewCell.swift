@@ -36,7 +36,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-//        posterImageView.image = nil
+        //        posterImageView.image = nil
     }
     
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
@@ -44,9 +44,10 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
     }
     
-    func configure(with text: String) {
-        movieTitleLabel.text = text
-        requiredHeight(text: movieTitleLabel.text!)
+    func configure(with popularMovieModel: MoviePreviewCellModel) {
+        movieTitleLabel.text = popularMovieModel.title
+        //        requiredHeight(text: movieTitleLabel.text!)
+        movieGenreLabel.text = "\(popularMovieModel.genreId ?? 333)"
         let labelNumberOfLines = countLabelLines(label: movieTitleLabel)
         if labelNumberOfLines <= 2 {
             movieTitleLabel.numberOfLines = labelNumberOfLines
@@ -74,7 +75,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         movieTitleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 4).isActive = true
         movieTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         movieTitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-
+        
         movieGenreLabel.translatesAutoresizingMaskIntoConstraints = false
         movieGenreLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor).isActive = true
         movieGenreLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
@@ -93,19 +94,18 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         
         movieGenreLabel.font = UIFont.systemFont(ofSize: 8)
         movieGenreLabel.textColor = .gray
-        movieGenreLabel.text = "Genre"
     }
     
     // MARK: - Temporary func for searching UILabel frame height
-    func requiredHeight(text: String) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: .max))
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.boldSystemFont(ofSize: 10)
-        label.text = text
-        label.sizeToFit()
-        print(label.frame.height)
-    }
+    //    func requiredHeight(text: String) {
+    //        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: .max))
+    //        label.numberOfLines = 0
+    //        label.lineBreakMode = .byWordWrapping
+    //        label.font = UIFont.boldSystemFont(ofSize: 10)
+    //        label.text = text
+    //        label.sizeToFit()
+    //        print(label.frame.height)
+    //    }
     
     // MARK: - Counting lines of specific UILabel
     func countLabelLines(label: UILabel) -> Int {

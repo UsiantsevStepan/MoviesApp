@@ -6,17 +6,42 @@
 //
 
 import UIKit
+import CoreData
 
 class MoviesViewController: UITableViewController {
     
+    let moviesManager = MoviesManager()
+    
     private let moviesTableViewCell = MoviesTableViewCell()
+    private var movieDataError: Error?
+//    private var firstPageData = [MoviePreviewCellModel]()
+    var moviesList = [MoviePreviewCellModel]()
+    //    {
+    //        didSet {
+    //            tableView.reloadData()
+    //        }
+    //    }
+    private var nextPage: Int?
     
     override func viewDidLoad() {
         
         tableView.register(MoviesTableViewCell.self, forCellReuseIdentifier: MoviesTableViewCell.reuseId)
         tableView.tableFooterView = UIView()
-//        tableView.rowHeight = UITableView.automaticDimension
-//        tableView.estimatedRowHeight = 400
+        tableView.separatorStyle = .none
+
+        self.moviesManager.getPopularMoviesData() { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case let .failure(error):
+                    self.movieDataError = error
+                case let .success(data):
+                    self.moviesList.append(contentsOf: data.0)
+                    self.nextPage = data.1 ?? 0 + 1
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -28,24 +53,25 @@ class MoviesViewController: UITableViewController {
         case 0:
             switch indexPath.row {
             case 0:
-                let cell0 = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
-                cell0.selectionStyle = .none
-                cell0.configureHeaderLabel(with: "Popular")
-                cell0.contentView.isUserInteractionEnabled = false
-//                cell0.headerButton.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
-                return cell0
+                let popularMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
+                popularMoviesCell.selectionStyle = .none
+                popularMoviesCell.contentView.isUserInteractionEnabled = false
+                popularMoviesCell.configure(moviesList)
+                popularMoviesCell.configureHeaderLabel(with: "Popular")
+                //                cell0.headerButton.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+                return popularMoviesCell
             case 1:
-                let cell1 = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
-                cell1.configureHeaderLabel(with: "Upcoming")
-                cell1.contentView.isUserInteractionEnabled = false
-                cell1.selectionStyle = .none
-                return cell1
+                let upcomingMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
+                upcomingMoviesCell.configureHeaderLabel(with: "Upcoming")
+                upcomingMoviesCell.contentView.isUserInteractionEnabled = false
+                upcomingMoviesCell.selectionStyle = .none
+                return upcomingMoviesCell
             case 2:
-                let cell2 = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
-                cell2.configureHeaderLabel(with: "Now playing")
-                cell2.contentView.isUserInteractionEnabled = false
-                cell2.selectionStyle = .none
-                return cell2
+                let nowPlayingMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
+                nowPlayingMoviesCell.configureHeaderLabel(with: "Now playing")
+                nowPlayingMoviesCell.contentView.isUserInteractionEnabled = false
+                nowPlayingMoviesCell.selectionStyle = .none
+                return nowPlayingMoviesCell
             default:
                 fatalError("something")
             }

@@ -7,8 +7,13 @@
 
 import Foundation
 
-struct MoviePreviewData {
+struct MoviePreviewData: Decodable {
     let posterUrl: String?
     let title: String?
-    let genre: String?
+    let genreIds: [Int]?
+}
+
+struct GenreData: Decodable {
+    let genreId: Int
+    let genreName: Int
 }

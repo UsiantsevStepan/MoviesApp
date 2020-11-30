@@ -12,7 +12,7 @@ protocol Network {
 }
 
 class NetworkManager {
-    private let session = URLSession(configuration: .default)
+//    private let session = URLSession(configuration: .default)
 }
 
 extension NetworkManager: Network {
@@ -43,7 +43,7 @@ private extension NetworkManager {
     }
     
     func sendRequest(_ request: URLRequest, completion: @escaping ((Result<Data, Error>) -> Void)) {
-        let task = session.dataTask(with: request) { data, _, error in
+        let task = URLSession.shared.dataTask(with: request) { data, _, error in
             
             if let error = error {
                 completion(.failure(error))
