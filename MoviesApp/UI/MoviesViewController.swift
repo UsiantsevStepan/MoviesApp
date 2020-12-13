@@ -29,6 +29,10 @@ class MoviesViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
 
+        self.moviesManager.getGenres() { [weak self] result in
+            guard let self = self else { return }
+        }
+        
         self.moviesManager.getPopularMoviesData() { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -37,11 +41,12 @@ class MoviesViewController: UITableViewController {
                     self.movieDataError = error
                 case let .success(data):
                     self.moviesList.append(contentsOf: data.0)
-                    self.nextPage = data.1 ?? 0 + 1
+                    self.nextPage = (data.1 ?? 1) + 1
                     self.tableView.reloadData()
                 }
             }
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

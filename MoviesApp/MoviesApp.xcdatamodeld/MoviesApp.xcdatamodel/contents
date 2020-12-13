@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="MoviePreview" representedClassName="MoviePreview" syncable="YES">
         <attribute name="genreId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="genreName" optional="YES" attributeType="String"/>
         <attribute name="posterPath" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <uniquenessConstraints>
@@ -11,6 +12,6 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="MoviePreview" positionX="-54" positionY="-9" width="128" height="74"/>
+        <element name="MoviePreview" positionX="-54" positionY="-9" width="128" height="89"/>
     </elements>
 </model>

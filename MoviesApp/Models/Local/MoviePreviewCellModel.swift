@@ -9,6 +9,7 @@ import Foundation
 
 struct MoviePreviewCellModel {
     let title: String?
-    let genreId: Int?
+//    let genreId: Int?
+    let genreName: String?
     let posterPath: String?
 }

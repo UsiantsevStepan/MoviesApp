@@ -47,7 +47,8 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     func configure(with popularMovieModel: MoviePreviewCellModel) {
         movieTitleLabel.text = popularMovieModel.title
         //        requiredHeight(text: movieTitleLabel.text!)
-        movieGenreLabel.text = "\(popularMovieModel.genreId ?? 333)"
+//        movieGenreLabel.text = "\(popularMovieModel.genreId ?? 333)"
+        movieGenreLabel.text = popularMovieModel.genreName
         let labelNumberOfLines = countLabelLines(label: movieTitleLabel)
         if labelNumberOfLines <= 2 {
             movieTitleLabel.numberOfLines = labelNumberOfLines
@@ -57,6 +58,11 @@ class MoviesCollectionViewCell: UICollectionViewCell {
             movieTitleLabel.numberOfLines = 0
             movieTitleLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         }
+        
+        posterImageView.kf.indicatorType = .activity
+        let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + (popularMovieModel.posterPath ?? ""))
+        // MARK: - Create placeholder
+        posterImageView.kf.setImage(with: posterUrl)
     }
     
     private func addSubviews() {
@@ -88,7 +94,9 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     
     private func configureSubviews() {
         posterImageView.contentMode = .scaleAspectFill
-        posterImageView.image = UIImage(named: "Poster")
+        posterImageView.layer.cornerRadius = 8.0
+        posterImageView.clipsToBounds = true
+//        posterImageView.image = UIImage(named: "Poster")
         
         movieTitleLabel.font = UIFont.boldSystemFont(ofSize: 10)
         

@@ -2,7 +2,7 @@
 //  MoviePreview+CoreDataProperties.swift
 //  MoviesApp
 //
-//  Created by Степан Усьянцев on 28.11.2020.
+//  Created by Степан Усьянцев on 13.12.2020.
 //
 //
 
@@ -16,8 +16,9 @@ extension MoviePreview {
         return NSFetchRequest<MoviePreview>(entityName: "MoviePreview")
     }
 
-    @NSManaged public var posterPath: String?
     @NSManaged public var genreId: Int64
+    @NSManaged public var posterPath: String?
     @NSManaged public var title: String?
+    @NSManaged public var genreName: String?
 
 }

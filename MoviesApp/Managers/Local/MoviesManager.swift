@@ -21,6 +21,8 @@ class MoviesManager {
     let dataParser = DataParser()
     let networkManager = NetworkManager()
     var moviesPreview: [MoviePreview]?
+    var genres = [Genre]()
+    var genreName: String?
     
     
     // Reference to managed object context
@@ -37,25 +39,43 @@ class MoviesManager {
                     completion(.failure(MoviesManagerError.parseError))
                     return
                 }
-                //TODO: - save to db
+                // MARK: - Saving popular movies data to DB
                 let movies = self.savePopularMovies(moviesListData.results)
                 completion(.success((self.createMoviePreviewCellModel(from: movies),moviesListData.page)))
             }
         }
     }
     
-    // get Data from api -> decode to model -> array of models save to coredata -> get this array -> translate to cell model -> implement
+    func getGenres(_ completion: @escaping ((Result<[Genre],Error>)) -> Void) {
+        networkManager.getData(with: ApiEndpoint.getGenres) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .failure(error):
+                completion(.failure(error))
+            case let .success(data):
+                guard let genresData = self.dataParser.parse(withData: data, to: GenreListData.self) else {
+                    completion(.failure(MoviesManagerError.parseError))
+                    return
+                }
+                self.genres = genresData.genres
+            }
+        }
+    }
     
     func savePopularMovies(_ movies: [Movie]) -> [MoviePreview] {
-
+        
         // Create a movie object
         for movie in movies {
             let newPopularMovie = MoviePreview(context: self.context)
+            
+            
             newPopularMovie.title = movie.title
             newPopularMovie.genreId = Int64(movie.genreIds.first ?? 0)
+            matchGenres(newPopularMovie)
             newPopularMovie.posterPath = movie.posterPath
+            newPopularMovie.genreName = genreName ?? ""
         }
-
+        
         //Save the data
         do {
             try self.context.save()
@@ -79,14 +99,23 @@ class MoviesManager {
         }
     }
     
-    // from CoreData Model
+    //MARK: - Create cell model from CoreData Model
     private func createMoviePreviewCellModel(from moviesData: [MoviePreview]) -> [MoviePreviewCellModel] {
         return moviesData.map { movie -> MoviePreviewCellModel in
+            
             return MoviePreviewCellModel(
                 title: movie.title,
-                genreId: Int(movie.genreId),
+                genreName: movie.genreName,
                 posterPath: movie.posterPath
             )
         }
     }
+    
+    private func matchGenres(_ movie: MoviePreview) {
+        let filteredArray = genres.filter { $0.id == movie.genreId }
+        filteredArray.map { id -> () in
+            genreName = id.name
+            return
+        }
     }
+}

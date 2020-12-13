@@ -47,16 +47,18 @@ class MoviesTableViewCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+//        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
+//        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
 
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
+        headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 8).isActive = true
         headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 4).isActive = true
         headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
 
         headerButton.translatesAutoresizingMaskIntoConstraints = false
-        headerButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
+        headerButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -8).isActive = true
         headerButton.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 4).isActive = true
         headerButton.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
 
@@ -121,5 +123,9 @@ extension MoviesTableViewCell: UICollectionViewDelegate {
 extension MoviesTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 121, height: collectionView.frame.size.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
     }
 }

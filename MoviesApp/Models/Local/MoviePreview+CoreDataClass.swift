@@ -2,7 +2,7 @@
 //  MoviePreview+CoreDataClass.swift
 //  MoviesApp
 //
-//  Created by Степан Усьянцев on 28.11.2020.
+//  Created by Степан Усьянцев on 13.12.2020.
 //
 //
 
