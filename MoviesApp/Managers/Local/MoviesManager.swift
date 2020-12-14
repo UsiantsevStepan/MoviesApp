@@ -74,6 +74,7 @@ class MoviesManager {
             matchGenres(newPopularMovie)
             newPopularMovie.posterPath = movie.posterPath
             newPopularMovie.genreName = genreName ?? ""
+            newPopularMovie.voteAverage = Double(movie.voteAverage)
         }
         
         //Save the data
@@ -105,6 +106,7 @@ class MoviesManager {
             
             return MoviePreviewCellModel(
                 title: movie.title,
+                voteAverage: movie.voteAverage,
                 genreName: movie.genreName,
                 posterPath: movie.posterPath
             )

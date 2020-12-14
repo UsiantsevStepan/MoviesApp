@@ -16,10 +16,12 @@ struct Movie: Decodable {
     let posterPath: String?
     let title: String
     let genreIds: [Int]
+    let voteAverage: Double
     
     enum CodingKeys: String, CodingKey {
         case posterPath = "poster_path"
         case title
         case genreIds = "genre_ids"
+        case voteAverage = "vote_average"
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 struct MoviePreviewCellModel {
     let title: String?
-//    let genreId: Int?
+    let voteAverage: Double?
     let genreName: String?
     let posterPath: String?
 }

@@ -17,8 +17,9 @@ extension MoviePreview {
     }
 
     @NSManaged public var genreId: Int64
+    @NSManaged public var genreName: String?
     @NSManaged public var posterPath: String?
     @NSManaged public var title: String?
-    @NSManaged public var genreName: String?
+    @NSManaged public var voteAverage: Double
 
 }

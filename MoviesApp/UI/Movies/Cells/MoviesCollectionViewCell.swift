@@ -20,6 +20,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     private let posterImageView = UIImageView()
     private let movieTitleLabel = UILabel()
     private let movieGenreLabel = UILabel()
+    private let movieRatingLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,7 +48,6 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     func configure(with popularMovieModel: MoviePreviewCellModel) {
         movieTitleLabel.text = popularMovieModel.title
         //        requiredHeight(text: movieTitleLabel.text!)
-//        movieGenreLabel.text = "\(popularMovieModel.genreId ?? 333)"
         movieGenreLabel.text = popularMovieModel.genreName
         let labelNumberOfLines = countLabelLines(label: movieTitleLabel)
         if labelNumberOfLines <= 2 {
@@ -63,29 +63,55 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + (popularMovieModel.posterPath ?? ""))
         // MARK: - Create placeholder
         posterImageView.kf.setImage(with: posterUrl)
+        
+        guard let movieRating = popularMovieModel.voteAverage else {
+            movieRatingLabel.isHidden = true
+            return
+        }
+        
+        if movieRating >= 7 {
+            movieRatingLabel.backgroundColor = .systemGreen
+        } else if movieRating < 5 {
+            movieRatingLabel.backgroundColor = .systemRed
+        } else {
+            movieRatingLabel.backgroundColor = .systemGray
+        }
+        
+        movieRatingLabel.text = "\(popularMovieModel.voteAverage ?? 0)"
     }
     
     private func addSubviews() {
-        [posterImageView, movieTitleLabel, movieGenreLabel].forEach(self.addSubview)
+        [
+            posterImageView,
+            movieTitleLabel,
+            movieGenreLabel,
+            movieRatingLabel
+        ].forEach(self.addSubview)
     }
     
     private func setConstraints() {
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         posterImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        posterImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        posterImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        posterImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4).isActive = true
+        posterImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -4).isActive = true
         posterImageView.heightAnchor.constraint(equalToConstant: 180).isActive = true
         posterImageView.widthAnchor.constraint(equalToConstant: 121).isActive = true
         
+        movieRatingLabel.translatesAutoresizingMaskIntoConstraints = false
+        movieRatingLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 12).isActive = true
+        movieRatingLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        movieRatingLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        movieRatingLabel.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         movieTitleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 4).isActive = true
-        movieTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        movieTitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        movieTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4).isActive = true
+        movieTitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -4).isActive = true
         
         movieGenreLabel.translatesAutoresizingMaskIntoConstraints = false
         movieGenreLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor).isActive = true
-        movieGenreLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        movieGenreLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        movieGenreLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4).isActive = true
+        movieGenreLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -4).isActive = true
         
         if let lastSubview = contentView.subviews.last {
             contentView.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 4).isActive = true            
@@ -97,6 +123,13 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         posterImageView.layer.cornerRadius = 8.0
         posterImageView.clipsToBounds = true
 //        posterImageView.image = UIImage(named: "Poster")
+        
+        movieRatingLabel.font = UIFont.boldSystemFont(ofSize: 12)
+        movieRatingLabel.textColor = .white
+        movieRatingLabel.layer.cornerRadius = 4
+        movieRatingLabel.clipsToBounds = true
+        movieRatingLabel.textAlignment = .center
+        self.bringSubviewToFront(movieRatingLabel)
         
         movieTitleLabel.font = UIFont.boldSystemFont(ofSize: 10)
         
