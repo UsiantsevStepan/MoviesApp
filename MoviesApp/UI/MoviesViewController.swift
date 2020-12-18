@@ -14,8 +14,10 @@ class MoviesViewController: UITableViewController {
     
     private let moviesTableViewCell = MoviesTableViewCell()
     private var movieDataError: Error?
-//    private var firstPageData = [MoviePreviewCellModel]()
-    var moviesList = [MoviePreviewCellModel]()
+    //    private var firstPageData = [MoviePreviewCellModel]()
+    var popularMovies = [MoviePreviewCellModel]()
+    var upcomingMovies = [MoviePreviewCellModel]()
+    var nowPlayingMovies = [MoviePreviewCellModel]()
     //    {
     //        didSet {
     //            tableView.reloadData()
@@ -28,25 +30,52 @@ class MoviesViewController: UITableViewController {
         tableView.register(MoviesTableViewCell.self, forCellReuseIdentifier: MoviesTableViewCell.reuseId)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
-
+        
         self.moviesManager.getGenres() { [weak self] result in
             guard let self = self else { return }
         }
         
-        self.moviesManager.getPopularMoviesData() { [weak self] result in
+        self.moviesManager.getPopularMovies(1) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case let .failure(error):
                     self.movieDataError = error
                 case let .success(data):
-                    self.moviesList.append(contentsOf: data.0)
+                    self.popularMovies.append(contentsOf: data.0)
                     self.nextPage = (data.1 ?? 1) + 1
                     self.tableView.reloadData()
                 }
             }
         }
         
+        self.moviesManager.getUpcomingMovies(1) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case let .failure(error):
+                    self.movieDataError = error
+                case let .success(data):
+                    self.upcomingMovies.append(contentsOf: data.0)
+                    self.nextPage = (data.1 ?? 1) + 1
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
+        self.moviesManager.getNowPlayingMovies(1) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case let .failure(error):
+                    self.movieDataError = error
+                case let .success(data):
+                    self.nowPlayingMovies.append(contentsOf: data.0)
+                    self.nextPage = (data.1 ?? 1) + 1
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,24 +90,26 @@ class MoviesViewController: UITableViewController {
                 let popularMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
                 popularMoviesCell.selectionStyle = .none
                 popularMoviesCell.contentView.isUserInteractionEnabled = false
-                popularMoviesCell.configure(moviesList)
                 popularMoviesCell.configureHeaderLabel(with: "Popular")
+                popularMoviesCell.configure(popularMovies)
                 //                cell0.headerButton.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
                 return popularMoviesCell
             case 1:
                 let upcomingMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
-                upcomingMoviesCell.configureHeaderLabel(with: "Upcoming")
-                upcomingMoviesCell.contentView.isUserInteractionEnabled = false
                 upcomingMoviesCell.selectionStyle = .none
+                upcomingMoviesCell.contentView.isUserInteractionEnabled = false
+                upcomingMoviesCell.configureHeaderLabel(with: "Upcoming")
+                upcomingMoviesCell.configure(upcomingMovies)
                 return upcomingMoviesCell
             case 2:
                 let nowPlayingMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
-                nowPlayingMoviesCell.configureHeaderLabel(with: "Now playing")
-                nowPlayingMoviesCell.contentView.isUserInteractionEnabled = false
                 nowPlayingMoviesCell.selectionStyle = .none
+                nowPlayingMoviesCell.contentView.isUserInteractionEnabled = false
+                nowPlayingMoviesCell.configureHeaderLabel(with: "Now playing")
+                nowPlayingMoviesCell.configure(nowPlayingMovies)
                 return nowPlayingMoviesCell
             default:
-                fatalError("something")
+                fatalError("Something went wrong")
             }
         default:
             fatalError()

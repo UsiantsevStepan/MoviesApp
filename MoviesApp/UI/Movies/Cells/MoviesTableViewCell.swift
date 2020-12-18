@@ -49,8 +49,6 @@ class MoviesTableViewCell: UITableViewCell {
         stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-//        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
-//        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
 
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 8).isActive = true

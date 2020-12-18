@@ -11,6 +11,7 @@ public enum ApiEndpoint {
     case getPopularMovies(page: Int)
     case getGenres
     case getUpcomingMovies(page: Int)
+    case getNowPlayingMovies(page: Int)
 }
 
 extension ApiEndpoint: EndpointProtocol {
@@ -26,6 +27,8 @@ extension ApiEndpoint: EndpointProtocol {
             return baseURL + "/genre/movie/list"
         case .getUpcomingMovies:
             return baseURL + "/movie/upcoming"
+        case .getNowPlayingMovies:
+            return baseURL + "/movie/now_playing"
         }
     }
     
@@ -38,6 +41,9 @@ extension ApiEndpoint: EndpointProtocol {
         case .getGenres:
             return queryParams
         case let .getUpcomingMovies(page: page):
+            queryParams.updateValue("\(page)", forKey: "page")
+            return queryParams
+        case let .getNowPlayingMovies(page: page):
             queryParams.updateValue("\(page)", forKey: "page")
             return queryParams
         }

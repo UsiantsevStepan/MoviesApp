@@ -64,7 +64,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         // MARK: - Create placeholder
         posterImageView.kf.setImage(with: posterUrl)
         
-        guard let movieRating = popularMovieModel.voteAverage else {
+        guard let movieRating = popularMovieModel.voteAverage, popularMovieModel.voteAverage != 0 else {
             movieRatingLabel.isHidden = true
             return
         }
@@ -77,7 +77,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
             movieRatingLabel.backgroundColor = .systemGray
         }
         
-        movieRatingLabel.text = "\(popularMovieModel.voteAverage ?? 0)"
+        movieRatingLabel.text = "\(movieRating)"
     }
     
     private func addSubviews() {

@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "MoviesApp")
-        //MARK: -Print for displaying sqlite file's path
+        //MARK: - Print sqlite file's path
         print(container.persistentStoreDescriptions.first?.url)
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
