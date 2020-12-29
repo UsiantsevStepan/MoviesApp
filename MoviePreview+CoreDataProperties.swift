@@ -2,7 +2,7 @@
 //  MoviePreview+CoreDataProperties.swift
 //  MoviesApp
 //
-//  Created by Степан Усьянцев on 17.12.2020.
+//  Created by Степан Усьянцев on 19.12.2020.
 //
 //
 
@@ -21,6 +21,23 @@ extension MoviePreview {
     @NSManaged public var posterPath: String?
     @NSManaged public var title: String?
     @NSManaged public var voteAverage: Double
-    @NSManaged public var list: List?
+    @NSManaged public var list: NSSet?
+
+}
+
+// MARK: Generated accessors for list
+extension MoviePreview {
+
+    @objc(addListObject:)
+    @NSManaged public func addToList(_ value: List)
+
+    @objc(removeListObject:)
+    @NSManaged public func removeFromList(_ value: List)
+
+    @objc(addList:)
+    @NSManaged public func addToList(_ values: NSSet)
+
+    @objc(removeList:)
+    @NSManaged public func removeFromList(_ values: NSSet)
 
 }

@@ -12,18 +12,13 @@ class MoviesViewController: UITableViewController {
     
     let moviesManager = MoviesManager()
     
+    var categories: [(ListName, [MoviePreviewCellModel])] {
+        ListName.allCases.map {
+            self.moviesManager.getCategories(listName: $0)
+        }
+    }
+    
     private let moviesTableViewCell = MoviesTableViewCell()
-    private var movieDataError: Error?
-    //    private var firstPageData = [MoviePreviewCellModel]()
-    var popularMovies = [MoviePreviewCellModel]()
-    var upcomingMovies = [MoviePreviewCellModel]()
-    var nowPlayingMovies = [MoviePreviewCellModel]()
-    //    {
-    //        didSet {
-    //            tableView.reloadData()
-    //        }
-    //    }
-    private var nextPage: Int?
     
     override func viewDidLoad() {
         
@@ -31,89 +26,99 @@ class MoviesViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         
-        self.moviesManager.getGenres() { [weak self] result in
-            guard let self = self else { return }
-        }
+        loadData()
+    }
+    
+    private func loadData() {
+        var movieDataError: Error?
+        var genreDataError: Error?
         
-        self.moviesManager.getPopularMovies(1) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
+        let group = DispatchGroup()
+        let queue = DispatchQueue.global(qos: .background)
+        
+        group.enter()
+        queue.async {
+            self.moviesManager.getGenres() { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case let .failure(error):
-                    self.movieDataError = error
-                case let .success(data):
-                    self.popularMovies.append(contentsOf: data.0)
-                    self.nextPage = (data.1 ?? 1) + 1
-                    self.tableView.reloadData()
+                    genreDataError = error
+                    group.leave()
+                case .success:
+                    group.leave()
                 }
             }
         }
         
-        self.moviesManager.getUpcomingMovies(1) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
+        group.enter()
+        queue.async {
+            self.moviesManager.getPopularMovies(1) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case let .failure(error):
-                    self.movieDataError = error
-                case let .success(data):
-                    self.upcomingMovies.append(contentsOf: data.0)
-                    self.nextPage = (data.1 ?? 1) + 1
-                    self.tableView.reloadData()
+                    movieDataError = error
+                    group.leave()
+                case .success:
+                    group.leave()
                 }
             }
         }
         
-        self.moviesManager.getNowPlayingMovies(1) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
+        group.enter()
+        queue.async {
+            self.moviesManager.getUpcomingMovies(1) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case let .failure(error):
-                    self.movieDataError = error
-                case let .success(data):
-                    self.nowPlayingMovies.append(contentsOf: data.0)
-                    self.nextPage = (data.1 ?? 1) + 1
-                    self.tableView.reloadData()
+                    movieDataError = error
+                    group.leave()
+                case .success:
+                    group.leave()
                 }
             }
+        }
+        
+        group.enter()
+        queue.async {
+            self.moviesManager.getNowPlayingMovies(1) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    movieDataError = error
+                    group.leave()
+                case .success:
+                    group.leave()
+                }
+            }
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            
+            if let unwrappedMovieDataError = movieDataError {
+                self.showError(unwrappedMovieDataError)
+            } else if let unwrappedGenreDataError = genreDataError {
+                self.showError(unwrappedGenreDataError)
+            }
+            
+            self.tableView.reloadData()
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return categories.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            switch indexPath.row {
-            case 0:
-                let popularMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
-                popularMoviesCell.selectionStyle = .none
-                popularMoviesCell.contentView.isUserInteractionEnabled = false
-                popularMoviesCell.configureHeaderLabel(with: "Popular")
-                popularMoviesCell.configure(popularMovies)
-                //                cell0.headerButton.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
-                return popularMoviesCell
-            case 1:
-                let upcomingMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
-                upcomingMoviesCell.selectionStyle = .none
-                upcomingMoviesCell.contentView.isUserInteractionEnabled = false
-                upcomingMoviesCell.configureHeaderLabel(with: "Upcoming")
-                upcomingMoviesCell.configure(upcomingMovies)
-                return upcomingMoviesCell
-            case 2:
-                let nowPlayingMoviesCell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
-                nowPlayingMoviesCell.selectionStyle = .none
-                nowPlayingMoviesCell.contentView.isUserInteractionEnabled = false
-                nowPlayingMoviesCell.configureHeaderLabel(with: "Now playing")
-                nowPlayingMoviesCell.configure(nowPlayingMovies)
-                return nowPlayingMoviesCell
-            default:
-                fatalError("Something went wrong")
-            }
-        default:
-            fatalError()
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
+        
+        //        let key = ListName.allCases[indexPath.row].rawValue
+        let movies = categories[indexPath.row]
+        cell.configureList(with: movies.0, movies: movies.1)
+        
+        return cell
+        
+        //                cell0.headerButton.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
     }
     
     // MARK: - Add functions to all buttons

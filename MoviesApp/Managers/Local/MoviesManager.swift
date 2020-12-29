@@ -5,7 +5,6 @@
 //  Created by Степан Усьянцев on 02.10.2020.
 //
 
-import Foundation
 import CoreData
 import UIKit
 
@@ -20,15 +19,8 @@ class MoviesManager {
     
     let dataParser = DataParser()
     let networkManager = NetworkManager()
-    var moviesPreview: [MoviePreview]?
     var genres = [Genre]()
     var genreName: String?
-    
-    private let popularListName = "Popular"
-    private let upcomingListName = "Upcoming"
-    private let nowPlayingListName = "Now playing"
-    
-    
     
     // Reference to managed object context
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -37,17 +29,17 @@ class MoviesManager {
     
     func getPopularMovies(_ page: Int? = nil, _ completion: @escaping ((Result<([MoviePreviewCellModel],Int?),Error>) -> Void)) {
         
-        getListOfMovies(endpoint: ApiEndpoint.getPopularMovies(page: page ?? 1), page: page, listName: popularListName, completion: completion)
+        getListOfMovies(endpoint: ApiEndpoint.getPopularMovies(page: page ?? 1), page: page, listName: ListName.popular.rawValue, completion: completion)
     }
     
     func getUpcomingMovies(_ page: Int? = nil, _ completion: @escaping ((Result<([MoviePreviewCellModel],Int?),Error>) -> Void)) {
         
-        getListOfMovies(endpoint: ApiEndpoint.getUpcomingMovies(page: page ?? 1), page: page, listName: upcomingListName, completion: completion)
+        getListOfMovies(endpoint: ApiEndpoint.getUpcomingMovies(page: page ?? 1), page: page, listName: ListName.upcoming.rawValue, completion: completion)
     }
     
     func getNowPlayingMovies(_ page: Int? = nil, _ completion: @escaping ((Result<([MoviePreviewCellModel],Int?),Error>) -> Void)) {
         
-        getListOfMovies(endpoint: ApiEndpoint.getNowPlayingMovies(page: page ?? 1), page: page, listName: nowPlayingListName, completion: completion)
+        getListOfMovies(endpoint: ApiEndpoint.getNowPlayingMovies(page: page ?? 1), page: page, listName: ListName.nowPlaying.rawValue, completion: completion)
     }
     
     func getGenres(_ completion: @escaping ((Result<[Genre],Error>)) -> Void) {
@@ -66,6 +58,11 @@ class MoviesManager {
         }
     }
     
+    func getCategories(listName: ListName) -> (ListName, [MoviePreviewCellModel]) {
+        let fetchedMovies = fetchMovies(listName: listName.rawValue)
+        return (listName, createMoviePreviewCellModel(from: fetchedMovies))
+    }
+    
     private func getListOfMovies(endpoint: ApiEndpoint, page: Int? = nil, listName: String, completion: @escaping ((Result<([MoviePreviewCellModel],Int?),Error>) -> Void)) {
         
         networkManager.getData(with: endpoint) { [weak self] result in
@@ -79,7 +76,7 @@ class MoviesManager {
                     return
                 }
                 if page == 1 {
-//                    self.deletePreviousData()
+                    self.deletePreviousData(for: listName)
                 }
                 
                 // MARK: - Saving movies Data to DB
@@ -89,25 +86,14 @@ class MoviesManager {
         }
     }
     
-    
-    //MARK: - Create lists which will store movies previews
-    private func createMoviesLists() {
-        let popularList = List(context: context)
-        popularList.name = "Popular"
-        
-        let upcomingList = List(context: context)
-        upcomingList.name = "Upcoming"
-        
-        let nowPlayingList = List(context: context)
-        nowPlayingList.name = "Now Playing"
-    }
-    
     private func saveMovies(listName: String, _ movies: [Movie]) -> [MoviePreview] {
         
+        //MARK: - Create lists which will store movies previews
         let list = List(context: context)
         list.name = listName
         
         // Create a movie object
+        context.refreshAllObjects()
         for movie in movies {
             let newMovie = MoviePreview(context: self.context)
             
@@ -125,8 +111,8 @@ class MoviesManager {
         do {
             try self.context.save()
         }
-        catch {
-            
+        catch let error as NSError {
+            print(error, error.localizedDescription)
         }
         
         // Re-fetch
@@ -170,14 +156,27 @@ class MoviesManager {
     }
     
     
-    private func deletePreviousData() {
-        let fetchRequest: NSFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MoviePreview")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+    private func deletePreviousData(for listName: String) {
+        //        let fetchRequest: NSFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "List")
+        let fetchRequest = List.fetchRequest() as NSFetchRequest<List>
+        let predicate = NSPredicate(format: "name CONTAINS %@", listName)
+        fetchRequest.predicate = predicate
         
         do {
-            try persistentStoreCoordinator.execute(deleteRequest, with: context)
+            let moviesSet = try context.fetch(fetchRequest)
+            let movies = moviesSet.first?.movies?.allObjects as? [MoviePreview] ?? []
+            for movie in movies {
+                context.delete(movie)
+            }
+            try context.save()
         } catch let error as NSError {
             print(error, error.localizedDescription)
         }
+        
+        //        do {
+        //            try persistentStoreCoordinator.execute(deleteRequest, with: context)
+        //        } catch let error as NSError {
+        //            print(error, error.localizedDescription)
+        //        }
     }
 }

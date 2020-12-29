@@ -10,10 +10,6 @@ import UIKit
 class MoviesTableViewCell: UITableViewCell {
     static let reuseId = "MoviesTableViewCellReuseId"
     
-    // MARK: - Temporary arrays
-    let array = ["Domino qerqereq qereqrqer qerqer qereqqe", "Who", "Звездные войны: Скайуокер. Восход", "Hello", "Wish you were here"]
-    let array1 = ["Hello","Hello","Hello","Hello","Hello"]
-    
     private let stackView = UIStackView()
     
     private let headerView = UIView()
@@ -26,6 +22,9 @@ class MoviesTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.selectionStyle = .none
+        self.contentView.isUserInteractionEnabled = false
         
         addSubviews()
         setConstraints()
@@ -90,14 +89,10 @@ class MoviesTableViewCell: UITableViewCell {
         collectionView.delegate = self
     }
     
-    func configureHeaderLabel(with string: String?) {
-        headerLabel.text = string
+    func configureList(with name: ListName, movies: [MoviePreviewCellModel]) {
+        headerLabel.text = name.rawValue
+        self.movies = movies
         
-        collectionView.reloadData()
-    }
-    
-    func configure(_ data: [MoviePreviewCellModel]) {
-        movies = data
         collectionView.reloadData()
     }
 }

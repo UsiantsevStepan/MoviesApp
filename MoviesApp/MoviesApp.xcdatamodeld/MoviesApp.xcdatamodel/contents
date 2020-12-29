@@ -15,7 +15,7 @@
         <attribute name="posterPath" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="List" inverseName="movies" inverseEntity="List"/>
+        <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="List" inverseName="movies" inverseEntity="List"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="title"/>
