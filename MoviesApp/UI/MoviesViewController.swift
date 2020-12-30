@@ -10,15 +10,14 @@ import CoreData
 
 class MoviesViewController: UITableViewController {
     
-    let moviesManager = MoviesManager()
+    private let moviesTableViewCell = MoviesTableViewCell()
     
+    let moviesManager = MoviesManager()
     var categories: [(ListName, [MoviePreviewCellModel])] {
         ListName.allCases.map {
             self.moviesManager.getCategories(listName: $0)
         }
     }
-    
-    private let moviesTableViewCell = MoviesTableViewCell()
     
     override func viewDidLoad() {
         
@@ -26,82 +25,16 @@ class MoviesViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         
-        loadData()
-    }
-    
-    private func loadData() {
-        var movieDataError: Error?
-        var genreDataError: Error?
-        
-        let group = DispatchGroup()
-        let queue = DispatchQueue.global(qos: .background)
-        
-        group.enter()
-        queue.async {
-            self.moviesManager.getGenres() { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case let .failure(error):
-                    genreDataError = error
-                    group.leave()
-                case .success:
-                    group.leave()
-                }
-            }
-        }
-        
-        group.enter()
-        queue.async {
-            self.moviesManager.getPopularMovies(1) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case let .failure(error):
-                    movieDataError = error
-                    group.leave()
-                case .success:
-                    group.leave()
-                }
-            }
-        }
-        
-        group.enter()
-        queue.async {
-            self.moviesManager.getUpcomingMovies(1) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case let .failure(error):
-                    movieDataError = error
-                    group.leave()
-                case .success:
-                    group.leave()
-                }
-            }
-        }
-        
-        group.enter()
-        queue.async {
-            self.moviesManager.getNowPlayingMovies(1) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case let .failure(error):
-                    movieDataError = error
-                    group.leave()
-                case .success:
-                    group.leave()
-                }
-            }
-        }
-        
-        group.notify(queue: .main) { [weak self] in
+        self.moviesManager.loadMovies { [weak self] result in
             guard let self = self else { return }
-            
-            if let unwrappedMovieDataError = movieDataError {
-                self.showError(unwrappedMovieDataError)
-            } else if let unwrappedGenreDataError = genreDataError {
-                self.showError(unwrappedGenreDataError)
+            DispatchQueue.main.async {
+                switch result {
+                case let .failure(error):
+                    self.showError(error)
+                case .success:
+                    self.tableView.reloadData()
+                }
             }
-            
-            self.tableView.reloadData()
         }
     }
     
@@ -112,7 +45,6 @@ class MoviesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseId, for: indexPath) as! MoviesTableViewCell
         
-        //        let key = ListName.allCases[indexPath.row].rawValue
         let movies = categories[indexPath.row]
         cell.configureList(with: movies.0, movies: movies.1)
         

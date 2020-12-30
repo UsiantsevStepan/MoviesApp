@@ -17,30 +17,17 @@ class MoviesManager {
         }
     }
     
+    private var lists = [(ListName, [Movie])]()
+    
     let dataParser = DataParser()
     let networkManager = NetworkManager()
     var genres = [Genre]()
     var genreName: String?
     
-    // Reference to managed object context
+    //MARK: - Reference to managed object context
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let persistentStoreCoordinator = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreCoordinator
     
-    
-    func getPopularMovies(_ page: Int? = nil, _ completion: @escaping ((Result<([MoviePreviewCellModel],Int?),Error>) -> Void)) {
-        
-        getListOfMovies(endpoint: ApiEndpoint.getPopularMovies(page: page ?? 1), page: page, listName: ListName.popular.rawValue, completion: completion)
-    }
-    
-    func getUpcomingMovies(_ page: Int? = nil, _ completion: @escaping ((Result<([MoviePreviewCellModel],Int?),Error>) -> Void)) {
-        
-        getListOfMovies(endpoint: ApiEndpoint.getUpcomingMovies(page: page ?? 1), page: page, listName: ListName.upcoming.rawValue, completion: completion)
-    }
-    
-    func getNowPlayingMovies(_ page: Int? = nil, _ completion: @escaping ((Result<([MoviePreviewCellModel],Int?),Error>) -> Void)) {
-        
-        getListOfMovies(endpoint: ApiEndpoint.getNowPlayingMovies(page: page ?? 1), page: page, listName: ListName.nowPlaying.rawValue, completion: completion)
-    }
     
     func getGenres(_ completion: @escaping ((Result<[Genre],Error>)) -> Void) {
         networkManager.getData(with: ApiEndpoint.getGenres) { [weak self] result in
@@ -54,6 +41,7 @@ class MoviesManager {
                     return
                 }
                 self.genres = genresData.genres
+                completion(.success(self.genres))
             }
         }
     }
@@ -63,8 +51,86 @@ class MoviesManager {
         return (listName, createMoviePreviewCellModel(from: fetchedMovies))
     }
     
-    private func getListOfMovies(endpoint: ApiEndpoint, page: Int? = nil, listName: String, completion: @escaping ((Result<([MoviePreviewCellModel],Int?),Error>) -> Void)) {
+    public func loadMovies(_ page: Int? = nil, _ completion: @escaping ((Result<(Int?),Error>) -> Void)) {
+        let group = DispatchGroup()
+        let queue = DispatchQueue.global(qos: .background)
         
+        group.enter()
+        queue.async {
+            self.getGenres() { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case .success:
+                    group.leave()
+                }
+            }
+        }
+        
+        group.enter()
+        queue.async {
+            self.getListOfMovies(endpoint: ApiEndpoint.getPopularMovies(page: page ?? 1), listName: ListName.popular.rawValue, completion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case let .success(data):
+                    print("IN popular")
+                    self.lists.append((ListName.popular, data.0))
+                    group.leave()
+                }
+            })
+        }
+        
+        group.enter()
+        queue.async {
+            self.getListOfMovies(endpoint: ApiEndpoint.getUpcomingMovies(page: page ?? 1), listName: ListName.upcoming.rawValue, completion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case let .success(data):
+                    print("IN upcoming")
+                    self.lists.append((ListName.upcoming, data.0))
+                    group.leave()
+                }
+            })
+        }
+        
+        group.enter()
+        queue.async {
+            self.getListOfMovies(endpoint: ApiEndpoint.getNowPlayingMovies(page: page ?? 1), listName: ListName.nowPlaying.rawValue, completion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case let .success(data):
+                    print("IN now playing")
+                    self.lists.append((ListName.nowPlaying, data.0))
+                    group.leave()
+                }
+            })
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            print("FINISHED")
+            
+            // MARK: - Saving movies Data to DB
+            for movie in self.lists {
+                self.saveMovies(listName: movie.0.rawValue, movie.1)
+            }
+            completion(.success(page))
+            
+        }
+    }
+    
+    private func getListOfMovies(endpoint: ApiEndpoint, page: Int? = nil, listName: String, completion: @escaping ((Result<([Movie],Int?),Error>) -> Void)) {
         networkManager.getData(with: endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -79,20 +145,18 @@ class MoviesManager {
                     self.deletePreviousData(for: listName)
                 }
                 
-                // MARK: - Saving movies Data to DB
-                let movies = self.saveMovies(listName: listName, moviesListData.results)
-                completion(.success((self.createMoviePreviewCellModel(from: movies), moviesListData.page)))
+                completion(.success((moviesListData.results, moviesListData.page)))
             }
         }
     }
     
     private func saveMovies(listName: String, _ movies: [Movie]) -> [MoviePreview] {
         
-        //MARK: - Create lists which will store movies previews
+        //MARK: - Creating lists which will store movies previews
         let list = List(context: context)
         list.name = listName
         
-        // Create a movie object
+        //MARK: - Creating a movie object
         context.refreshAllObjects()
         for movie in movies {
             let newMovie = MoviePreview(context: self.context)
@@ -107,7 +171,7 @@ class MoviesManager {
             list.addToMovies(newMovie)
         }
         
-        //Save the data
+        //MARK: - Saving data
         do {
             try self.context.save()
         }
@@ -115,7 +179,7 @@ class MoviesManager {
             print(error, error.localizedDescription)
         }
         
-        // Re-fetch
+        //MARK: - Re-fetch
         return self.fetchMovies(listName: listName)
     }
     
@@ -135,7 +199,7 @@ class MoviesManager {
         }
     }
     
-    //MARK: - Сreate cell model from CoreData Model
+    //MARK: - Сreating cell model from CoreData Model
     private func createMoviePreviewCellModel(from moviesData: [MoviePreview]) -> [MoviePreviewCellModel] {
         return moviesData.map { movie -> MoviePreviewCellModel in
             
@@ -157,7 +221,6 @@ class MoviesManager {
     
     
     private func deletePreviousData(for listName: String) {
-        //        let fetchRequest: NSFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "List")
         let fetchRequest = List.fetchRequest() as NSFetchRequest<List>
         let predicate = NSPredicate(format: "name CONTAINS %@", listName)
         fetchRequest.predicate = predicate
@@ -172,11 +235,5 @@ class MoviesManager {
         } catch let error as NSError {
             print(error, error.localizedDescription)
         }
-        
-        //        do {
-        //            try persistentStoreCoordinator.execute(deleteRequest, with: context)
-        //        } catch let error as NSError {
-        //            print(error, error.localizedDescription)
-        //        }
     }
 }
