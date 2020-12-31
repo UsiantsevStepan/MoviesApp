@@ -25,7 +25,7 @@ class MoviesViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         
-        self.moviesManager.loadMovies { [weak self] result in
+        self.moviesManager.loadMovies(1) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {

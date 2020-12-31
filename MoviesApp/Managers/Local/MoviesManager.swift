@@ -69,52 +69,21 @@ class MoviesManager {
             }
         }
         
-        group.enter()
-        queue.async {
-            self.getListOfMovies(endpoint: ApiEndpoint.getPopularMovies(page: page ?? 1), listName: ListName.popular.rawValue, completion: { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case let .failure(error):
-                    completion(.failure(error))
-                    group.leave()
-                case let .success(data):
-                    print("IN popular")
-                    self.lists.append((ListName.popular, data.0))
-                    group.leave()
+        ListName.allCases.forEach { list in
+            group.enter()
+            queue.async {
+                self.getListOfMovies(endpoint: ApiEndpoint.getMovies(page: page ?? 1, path: list.searchPath), listName: list.rawValue) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case let .failure(error):
+                        completion(.failure(error))
+                        group.leave()
+                    case let .success(data):
+                        self.lists.append((list, data.0))
+                        group.leave()
+                    }
                 }
-            })
-        }
-        
-        group.enter()
-        queue.async {
-            self.getListOfMovies(endpoint: ApiEndpoint.getUpcomingMovies(page: page ?? 1), listName: ListName.upcoming.rawValue, completion: { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case let .failure(error):
-                    completion(.failure(error))
-                    group.leave()
-                case let .success(data):
-                    print("IN upcoming")
-                    self.lists.append((ListName.upcoming, data.0))
-                    group.leave()
-                }
-            })
-        }
-        
-        group.enter()
-        queue.async {
-            self.getListOfMovies(endpoint: ApiEndpoint.getNowPlayingMovies(page: page ?? 1), listName: ListName.nowPlaying.rawValue, completion: { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case let .failure(error):
-                    completion(.failure(error))
-                    group.leave()
-                case let .success(data):
-                    print("IN now playing")
-                    self.lists.append((ListName.nowPlaying, data.0))
-                    group.leave()
-                }
-            })
+            }
         }
         
         group.notify(queue: .main) { [weak self] in
@@ -150,7 +119,7 @@ class MoviesManager {
         }
     }
     
-    private func saveMovies(listName: String, _ movies: [Movie]) -> [MoviePreview] {
+    private func saveMovies(listName: String, _ movies: [Movie]) -> () {
         
         //MARK: - Creating lists which will store movies previews
         let list = List(context: context)
@@ -178,9 +147,6 @@ class MoviesManager {
         catch let error as NSError {
             print(error, error.localizedDescription)
         }
-        
-        //MARK: - Re-fetch
-        return self.fetchMovies(listName: listName)
     }
     
     private func fetchMovies(listName: String) -> [MoviePreview] {

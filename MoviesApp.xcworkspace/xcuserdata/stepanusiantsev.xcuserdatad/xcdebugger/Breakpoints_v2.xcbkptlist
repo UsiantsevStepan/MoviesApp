@@ -16,5 +16,85 @@
             stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A5EA1918-7440-4A64-A167-EF36534CE3DA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "loadMovies(_:_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A5EA1918-7440-4A64-A167-EF36534CE3DA - 57bea89807b6a868"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #2 (MoviesApp.ListName) -&gt; () in MoviesApp.MoviesManager.loadMovies(Swift.Optional&lt;Swift.Int&gt;, (Swift.Result&lt;Swift.Optional&lt;Swift.Int&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "MoviesApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "249">
+               </Location>
+               <Location
+                  uuid = "A5EA1918-7440-4A64-A167-EF36534CE3DA - 9609b843fe118fdf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;(Swift.Array&lt;MoviesApp.Movie&gt;, Swift.Optional&lt;Swift.Int&gt;), Swift.Error&gt;) -&gt; () in closure #1 () -&gt; () in closure #2 (MoviesApp.ListName) -&gt; () in MoviesApp.MoviesManager.loadMovies(Swift.Optional&lt;Swift.Int&gt;, (Swift.Result&lt;Swift.Optional&lt;Swift.Int&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "MoviesApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "391">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D34E4184-D8E0-4B81-AFA0-40584BF5EA24"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "loadMovies(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A28DB0DA-CF40-444E-A611-1DF5C9B8D06A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "loadMovies(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
