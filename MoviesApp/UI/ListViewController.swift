@@ -8,16 +8,16 @@
 import UIKit
 
 class ListViewController: UIViewController {
-//    private var movies = [MoviePreviewCellModel]()
     private let moviesManager = MoviesManager()
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
     var listName: ListName?
     var movies: [MoviePreviewCellModel] {
+        // MARK: - Check the listName
         print("Tapped on " + (listName?.rawValue ?? "NOT"))
-        print("Tap on \(listName)")
-        // TODO: - Find a better way to unwrap listName
-        let movies = self.moviesManager.getCategories(listName: listName ?? ListName.nowPlaying)
+        
+        guard let listName = listName else { return [] }
+        let movies = self.moviesManager.getCategories(listName: listName)
         return movies.1
     }
     
@@ -93,7 +93,6 @@ extension ListViewController: UICollectionViewDelegate {
 
 extension ListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 129, height: collectionView.frame.size.height)
         return CGSize(width: 129, height: 222)
     }
     

@@ -57,8 +57,7 @@ class MoviesManager {
         
         group.enter()
         queue.async {
-            self.getGenres() { [weak self] result in
-                guard let self = self else { return }
+            self.getGenres() { result in
                 switch result {
                 case let .failure(error):
                     completion(.failure(error))
@@ -104,8 +103,7 @@ class MoviesManager {
         
         group.enter()
         queue.async {
-            self.getGenres() { [weak self] result in
-                guard let self = self else { return }
+            self.getGenres() { result in
                 switch result {
                 case let .failure(error):
                     completion(.failure(error))
