@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol MoviesTableViewCellDelegate: class {
+    func showFullList(with name: ListName)
+}
+
 class MoviesTableViewCell: UITableViewCell {
     static let reuseId = "MoviesTableViewCellReuseId"
     
@@ -15,6 +19,10 @@ class MoviesTableViewCell: UITableViewCell {
     private let headerView = UIView()
     private let headerLabel = UILabel()
     private var movies = [MoviePreviewCellModel]()
+    
+    private var listName: ListName?
+    
+    weak var delegate: MoviesTableViewCellDelegate?
     
     let headerButton = UIButton()
     
@@ -87,13 +95,20 @@ class MoviesTableViewCell: UITableViewCell {
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
+        headerButton.addTarget(self, action: #selector(showFullList(_:)), for: .touchUpInside)
     }
     
     func configureList(with name: ListName, movies: [MoviePreviewCellModel]) {
         headerLabel.text = name.rawValue
         self.movies = movies
+        self.listName = name
         
         collectionView.reloadData()
+    }
+    
+    @objc func showFullList(_ sender: UIButton) {
+        guard let listName = listName else { return }
+        delegate?.showFullList(with: listName)
     }
 }
 

@@ -22,7 +22,7 @@ extension ApiEndpoint: EndpointProtocol {
         case .getGenres:
             return baseURL + "/genre/movie/list"
         case let .getMovies(_ , path):
-            return baseURL + "/movie/" + "\(path)"
+            return baseURL + "/movie/" + path
         }
     }
     

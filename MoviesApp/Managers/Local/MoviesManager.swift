@@ -88,7 +88,53 @@ class MoviesManager {
         
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
-            print("FINISHED")
+            
+            // MARK: - Saving movies Data to DB
+            for movie in self.lists {
+                self.saveMovies(listName: movie.0.rawValue, movie.1)
+            }
+            completion(.success(page))
+            
+        }
+    }
+    
+    public func loadList(page: Int? = nil, listName: ListName, _ completion: @escaping ((Result<(Int?),Error>) -> Void)) {
+        let group = DispatchGroup()
+        let queue = DispatchQueue.global(qos: .background)
+        
+        group.enter()
+        queue.async {
+            self.getGenres() { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case .success:
+                    group.leave()
+                }
+            }
+        }
+        
+//        ListName.allCases.forEach { list in
+            group.enter()
+            queue.async {
+                self.getListOfMovies(endpoint: ApiEndpoint.getMovies(page: page ?? 1, path: listName.searchPath), listName: listName.rawValue) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case let .failure(error):
+                        completion(.failure(error))
+                        group.leave()
+                    case let .success(data):
+                        self.lists.append((listName, data.0))
+                        group.leave()
+                    }
+                }
+            }
+//        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
             
             // MARK: - Saving movies Data to DB
             for movie in self.lists {
