@@ -59,9 +59,9 @@ class MoviesCollectionViewCell: UICollectionViewCell {
             movieTitleLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         }
         
-        posterImageView.kf.indicatorType = .activity
+//        posterImageView.kf.indicatorType = .activity
         let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + (popularMovieModel.posterPath ?? ""))
-        // MARK: - Create placeholder
+        // TODO: - Create placeholder
         posterImageView.kf.setImage(with: posterUrl)
         
         guard let movieRating = popularMovieModel.voteAverage, popularMovieModel.voteAverage != 0 else {

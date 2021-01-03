@@ -114,7 +114,10 @@ class MoviesTableViewCell: UITableViewCell {
 
 extension MoviesTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // TODO: - Find a better solution to display only 20 movies at Movies screen (fix the hardcode)
         return movies.count
+        // MARK: - Hardcoding with Int make app crash in cellForItemAt (collectionView)
+//        return 20
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

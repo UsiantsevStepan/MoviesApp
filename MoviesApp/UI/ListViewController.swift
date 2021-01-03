@@ -31,7 +31,7 @@ class ListViewController: UIViewController {
         for page in 2...5 {
             guard let listName = listName else { continue }
             self.moviesManager.loadList(page: page, listName: listName, { [weak self] result in
-                print("zhopa \(page)")
+                print("page number: \(page)")
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     switch result {

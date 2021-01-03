@@ -122,11 +122,11 @@
 			isa = PBXGroup;
 			children = (
 				B13EE05D259C67110057567D /* MoviePreview+CoreDataClass.swift */,
+				B13EE062259C67110057567D /* MoviePreview+CoreDataProperties.swift */,
 				B13EE05E259C67110057567D /* List+CoreDataProperties.swift */,
 				B13EE05F259C67110057567D /* List+CoreDataClass.swift */,
 				B13EE060259C67110057567D /* MoviePreviewCellModel.swift */,
 				B13EE061259C67110057567D /* MoviePreviewData.swift */,
-				B13EE062259C67110057567D /* MoviePreview+CoreDataProperties.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";

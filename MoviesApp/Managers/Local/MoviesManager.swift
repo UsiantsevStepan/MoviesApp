@@ -114,7 +114,6 @@ class MoviesManager {
             }
         }
         
-//        ListName.allCases.forEach { list in
             group.enter()
             queue.async {
                 self.getListOfMovies(endpoint: ApiEndpoint.getMovies(page: page ?? 1, path: listName.searchPath), listName: listName.rawValue) { [weak self] result in
@@ -129,7 +128,6 @@ class MoviesManager {
                     }
                 }
             }
-//        }
         
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
@@ -201,8 +199,11 @@ class MoviesManager {
             let predicate = NSPredicate(format: "name CONTAINS %@", listName)
             request.predicate = predicate
             
-            let moviesSet = try context.fetch(request)
-            return moviesSet.first?.movies?.allObjects as? [MoviePreview] ?? []
+            let moviesList = try context.fetch(request)
+            let moviesSet = moviesList.first?.movies?.allObjects as? [MoviePreview] ?? []
+            let sortedMovies = moviesSet.sorted { $0.title ?? "" < $1.title ?? "" }
+            return sortedMovies
+//            return moviesSet
         }
         catch {
             return []
