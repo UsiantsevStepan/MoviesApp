@@ -22,6 +22,7 @@
 		B1764429251F9615004B6F45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1764428251F9615004B6F45 /* AppDelegate.swift */; };
 		B1764435251F9616004B6F45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1764434251F9616004B6F45 /* Assets.xcassets */; };
 		B1764438251F9616004B6F45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1764436251F9616004B6F45 /* LaunchScreen.storyboard */; };
+		B1B2210225A2399800226A20 /* FooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2210125A2399800226A20 /* FooterCollectionReusableView.swift */; };
 		B1C751F7259F50CC00AB0EC2 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C751F6259F50CC00AB0EC2 /* ListViewController.swift */; };
 		B1D46B87259B111D00AFDA4E /* UIViewController+ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D46B86259B111D00AFDA4E /* UIViewController+ErrorHandling.swift */; };
 		B1D7988A2524D576005DE807 /* ApiEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D798892524D576005DE807 /* ApiEndpoint.swift */; };
@@ -53,6 +54,7 @@
 		B1764434251F9616004B6F45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1764437251F9616004B6F45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B1764439251F9616004B6F45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B1B2210125A2399800226A20 /* FooterCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterCollectionReusableView.swift; sourceTree = "<group>"; };
 		B1C751F6259F50CC00AB0EC2 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		B1D46B86259B111D00AFDA4E /* UIViewController+ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ErrorHandling.swift"; sourceTree = "<group>"; };
 		B1D798892524D576005DE807 /* ApiEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndpoint.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				B1041955252350FA00EA84C4 /* MoviesTableViewCell.swift */,
 				B115AF3025239805001A61FF /* MoviesCollectionViewCell.swift */,
+				B1B2210125A2399800226A20 /* FooterCollectionReusableView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				B1D46B87259B111D00AFDA4E /* UIViewController+ErrorHandling.swift in Sources */,
 				B115AF3125239805001A61FF /* MoviesCollectionViewCell.swift in Sources */,
 				B1D7988A2524D576005DE807 /* ApiEndpoint.swift in Sources */,
+				B1B2210225A2399800226A20 /* FooterCollectionReusableView.swift in Sources */,
 				B1D798922524D5D1005DE807 /* EndpointProtocol.swift in Sources */,
 				B13EE067259C67110057567D /* MoviePreviewData.swift in Sources */,
 				B15615132525F9FA004FD6F1 /* GenreListData.swift in Sources */,

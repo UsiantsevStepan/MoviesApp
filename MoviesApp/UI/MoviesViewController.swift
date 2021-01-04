@@ -56,7 +56,7 @@ class MoviesViewController: UITableViewController {
     
     private func loadData() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        self.moviesManager.loadMovies(1) { [weak self] result in
+        self.moviesManager.loadMovies(page: 1) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -78,5 +78,6 @@ extension MoviesViewController: MoviesTableViewCellDelegate {
         let controller = ListViewController()
         controller.listName = name
         navigationController?.pushViewController(controller, animated: true)
+        controller.loadPage()
     }
 }

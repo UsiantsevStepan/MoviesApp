@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Poster.jpg",
+      "filename" : "Poster.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Poster-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Poster-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

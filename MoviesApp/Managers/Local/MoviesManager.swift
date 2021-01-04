@@ -51,7 +51,7 @@ class MoviesManager {
         return (listName, createMoviePreviewCellModel(from: fetchedMovies))
     }
     
-    public func loadMovies(_ page: Int? = nil, _ completion: @escaping ((Result<(Int?),Error>) -> Void)) {
+    public func loadMovies(page: Int? = nil, _ completion: @escaping ((Result<(Int?),Error>) -> Void)) {
         let group = DispatchGroup()
         let queue = DispatchQueue.global(qos: .background)
         
@@ -79,6 +79,12 @@ class MoviesManager {
                         group.leave()
                     case let .success(data):
                         self.lists.append((list, data.0))
+                        // MARK: - Deleting previous data
+                        if page == 1 {
+                            ListName.allCases.forEach { list in
+                                self.deletePreviousData(for: list.rawValue)
+                            }
+                        }
                         group.leave()
                     }
                 }
@@ -124,6 +130,10 @@ class MoviesManager {
                         group.leave()
                     case let .success(data):
                         self.lists.append((listName, data.0))
+                        // MARK: - Deleting previous data
+                        if page == 1 {
+                            self.deletePreviousData(for: listName.rawValue)
+                        }
                         group.leave()
                     }
                 }
@@ -152,9 +162,11 @@ class MoviesManager {
                     completion(.failure(MoviesManagerError.parseError))
                     return
                 }
-                if page == 1 {
-                    self.deletePreviousData(for: listName)
-                }
+//                if moviesListData.page == 1 {
+//                    DispatchQueue.main.async {
+//                        self.deletePreviousData(for: listName)
+//                    }
+//                }
                 
                 completion(.success((moviesListData.results, moviesListData.page)))
             }
@@ -184,7 +196,7 @@ class MoviesManager {
         
         //MARK: - Saving data
         do {
-            try self.context.save()
+            try context.save()
         }
         catch let error as NSError {
             print(error, error.localizedDescription)
@@ -203,7 +215,6 @@ class MoviesManager {
             let moviesSet = moviesList.first?.movies?.allObjects as? [MoviePreview] ?? []
             let sortedMovies = moviesSet.sorted { $0.title ?? "" < $1.title ?? "" }
             return sortedMovies
-//            return moviesSet
         }
         catch {
             return []
@@ -232,19 +243,22 @@ class MoviesManager {
     
     
     private func deletePreviousData(for listName: String) {
-        let fetchRequest = List.fetchRequest() as NSFetchRequest<List>
-        let predicate = NSPredicate(format: "name CONTAINS %@", listName)
-        fetchRequest.predicate = predicate
         
-        do {
-            let moviesSet = try context.fetch(fetchRequest)
-            let movies = moviesSet.first?.movies?.allObjects as? [MoviePreview] ?? []
-            for movie in movies {
-                context.delete(movie)
+        DispatchQueue.main.async {
+            let fetchRequest = List.fetchRequest() as NSFetchRequest<List>
+            let predicate = NSPredicate(format: "name CONTAINS %@", listName)
+            fetchRequest.predicate = predicate
+            
+            do {
+                let moviesSet = try self.context.fetch(fetchRequest)
+                let movies = moviesSet.first?.movies?.allObjects as? [MoviePreview] ?? []
+                for movie in movies {
+                    self.context.delete(movie)
+                }
+                try self.context.save()
+            } catch let error as NSError {
+                print(error, error.localizedDescription)
             }
-            try context.save()
-        } catch let error as NSError {
-            print(error, error.localizedDescription)
         }
     }
 }

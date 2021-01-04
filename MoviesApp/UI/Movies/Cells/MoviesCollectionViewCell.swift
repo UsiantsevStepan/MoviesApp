@@ -37,7 +37,10 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        //        posterImageView.image = nil
+        posterImageView.image = nil
+        movieTitleLabel.text = nil
+        movieGenreLabel.text = nil
+        movieRatingLabel.text = nil
     }
     
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
@@ -59,10 +62,10 @@ class MoviesCollectionViewCell: UICollectionViewCell {
             movieTitleLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         }
         
-//        posterImageView.kf.indicatorType = .activity
+        //        posterImageView.kf.indicatorType = .activity
         let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + (popularMovieModel.posterPath ?? ""))
         // TODO: - Create placeholder
-        posterImageView.kf.setImage(with: posterUrl)
+        posterImageView.kf.setImage(with: posterUrl, placeholder: #imageLiteral(resourceName: "Poster"))
         
         guard let movieRating = popularMovieModel.voteAverage, popularMovieModel.voteAverage != 0 else {
             movieRatingLabel.isHidden = true
@@ -122,7 +125,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.layer.cornerRadius = 8.0
         posterImageView.clipsToBounds = true
-//        posterImageView.image = UIImage(named: "Poster")
+        //        posterImageView.image = UIImage(named: "Poster")
         
         movieRatingLabel.font = UIFont.boldSystemFont(ofSize: 12)
         movieRatingLabel.textColor = .white

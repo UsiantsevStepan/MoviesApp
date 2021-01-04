@@ -7,8 +7,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            uuid = "E7FD293E-A02A-4934-9F05-0CD39D484366"
-            shouldBeEnabled = "Yes"
+            uuid = "39661593-F828-44AE-91B5-81D8987A8FED"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             breakpointStackSelectionBehavior = "1"
@@ -19,513 +19,161 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "34C5554D-0BC7-4F7A-968B-C21458C05563"
+            uuid = "6DD217A2-EC7D-4E91-8BAE-915909EA3439"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            filePath = "MoviesApp/UI/ListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "getCategories(listName:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1704AAB1-5F5E-4FD6-A77E-34293931C060"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
-            landmarkName = "saveMovies(listName:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "463E52B3-C2BF-4D6B-ABB1-847D2E01225E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
-            landmarkName = "saveMovies(listName:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1E7C7632-8F9E-4D42-9263-1B3B93479048"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/UI/MoviesViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A7EE6654-A77C-46C4-A3B1-20E17E529B45"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
-            landmarkName = "MoviesManager"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "A7EE6654-A77C-46C4-A3B1-20E17E529B45 - a8294f3ce7f41ac4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 1 of MoviesApp.MoviesManager.(getListOfMovies in _21B2937CBE7E96E1A0BD37587DBF29A4)(endpoint: MoviesApp.ApiEndpoint, page: Swift.Optional&lt;Swift.Int&gt;, listName: Swift.String, completion: (Swift.Result&lt;(Swift.Array&lt;MoviesApp.Movie&gt;, Swift.Optional&lt;Swift.Int&gt;), Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "146"
-                  endingLineNumber = "146"
-                  offsetFromSymbolStart = "8">
-               </Location>
-               <Location
-                  uuid = "A7EE6654-A77C-46C4-A3B1-20E17E529B45 - 71769298d1fa8c4b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MoviesApp.MoviesManager.(getListOfMovies in _21B2937CBE7E96E1A0BD37587DBF29A4)(endpoint: MoviesApp.ApiEndpoint, page: Swift.Optional&lt;Swift.Int&gt;, listName: Swift.String, completion: (Swift.Result&lt;(Swift.Array&lt;MoviesApp.Movie&gt;, Swift.Optional&lt;Swift.Int&gt;), Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "147"
-                  endingLineNumber = "147"
-                  offsetFromSymbolStart = "113">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8BFA328D-63DE-4DD0-801E-E53F76E03ED0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "getListOfMovies(endpoint:page:listName:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8BFA328D-63DE-4DD0-801E-E53F76E03ED0 - 71769298d1fa8c4b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MoviesApp.MoviesManager.(getListOfMovies in _21B2937CBE7E96E1A0BD37587DBF29A4)(endpoint: MoviesApp.ApiEndpoint, page: Swift.Optional&lt;Swift.Int&gt;, listName: Swift.String, completion: (Swift.Result&lt;(Swift.Array&lt;MoviesApp.Movie&gt;, Swift.Optional&lt;Swift.Int&gt;), Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "147"
-                  endingLineNumber = "147"
-                  offsetFromSymbolStart = "113">
-               </Location>
-               <Location
-                  uuid = "8BFA328D-63DE-4DD0-801E-E53F76E03ED0 - 9c240b724625505f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;Foundation.Data, Swift.Error&gt;) -&gt; () in MoviesApp.MoviesManager.(getListOfMovies in _21B2937CBE7E96E1A0BD37587DBF29A4)(endpoint: MoviesApp.ApiEndpoint, page: Swift.Optional&lt;Swift.Int&gt;, listName: Swift.String, completion: (Swift.Result&lt;(Swift.Array&lt;MoviesApp.Movie&gt;, Swift.Optional&lt;Swift.Int&gt;), Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "147"
-                  endingLineNumber = "147"
-                  offsetFromSymbolStart = "422">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "03CAAAD6-11BF-4CBA-AE55-22ABDCDC7767"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
-            landmarkName = "getListOfMovies(endpoint:page:listName:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "173F194D-B62F-4C63-BC9F-0010E55FC5D1"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "getListOfMovies(endpoint:page:listName:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4720E2F6-BA66-43AD-85D3-6D980A92019D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "getListOfMovies(endpoint:page:listName:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A364E23A-32F4-47A0-8860-166A13A1DA17"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "getListOfMovies(endpoint:page:listName:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A364E23A-32F4-47A0-8860-166A13A1DA17 - 9c240b72462550e0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;Foundation.Data, Swift.Error&gt;) -&gt; () in MoviesApp.MoviesManager.(getListOfMovies in _21B2937CBE7E96E1A0BD37587DBF29A4)(endpoint: MoviesApp.ApiEndpoint, page: Swift.Optional&lt;Swift.Int&gt;, listName: Swift.String, completion: (Swift.Result&lt;(Swift.Array&lt;MoviesApp.Movie&gt;, Swift.Optional&lt;Swift.Int&gt;), Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "657">
-               </Location>
-               <Location
-                  uuid = "A364E23A-32F4-47A0-8860-166A13A1DA17 - 9c240b72462550e0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;Foundation.Data, Swift.Error&gt;) -&gt; () in MoviesApp.MoviesManager.(getListOfMovies in _21B2937CBE7E96E1A0BD37587DBF29A4)(endpoint: MoviesApp.ApiEndpoint, page: Swift.Optional&lt;Swift.Int&gt;, listName: Swift.String, completion: (Swift.Result&lt;(Swift.Array&lt;MoviesApp.Movie&gt;, Swift.Optional&lt;Swift.Int&gt;), Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "699">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CE417F54-8E34-4E33-B037-813A41CAF4A3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/Endpoints/ApiEndpoint.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "params"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "movies"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "ABA0F223-0F79-452D-98FD-1E46F4FBCB96"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "performRequest(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C8872791-044D-4383-B368-D704A153B256"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "performRequest(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "35E783B4-A586-4C18-919F-5FA31541AD5E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "sendRequest(_:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "537227AA-158A-4242-B4A8-659D0DFD7022"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "performRequest(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9E777808-10BB-42DA-BE91-93942F90302D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "performRequest(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A8294FFD-79F5-47B4-9B8C-E56BD9B4BC66"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "performRequest(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EC8B5E0F-9C1E-41CE-9889-A450868B29E2"
+            uuid = "E19B66C5-E89C-43AE-A3A9-FDEEDCFE9FBD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
+            filePath = "MoviesApp/UI/ListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "performRequest(for:)"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "movies"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BAC26D4F-FF4A-49BE-B741-07401CB91706"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/UI/ListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "movies"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B33D5EA6-95B8-4748-B5D3-30F9D109E0A7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
+            landmarkName = "getListOfMovies(endpoint:page:listName:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B20F69AA-61B1-4D0F-831E-BC5E19EAC0B3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "getListOfMovies(endpoint:page:listName:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A389C19-4CB5-4BC2-97AB-708FACEED0C9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "saveMovies(listName:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88BF977D-453E-4890-ABA7-CE83BF0D9436"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "loadList(page:listName:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "43BC3BCD-38FE-4C12-9B34-A85E9EC1DB9E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/UI/ListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "loadPage()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "EC8B5E0F-9C1E-41CE-9889-A450868B29E2 - d68265353ad2cc83"
+                  uuid = "43BC3BCD-38FE-4C12-9B34-A85E9EC1DB9E - ba69c678b75934b6"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "MoviesApp.NetworkManager.(performRequest in _6F4E12E52BD16E0F2F1D1791DCD68799)(for: MoviesApp.EndpointProtocol) -&gt; Swift.Optional&lt;Foundation.URLRequest&gt;"
+                  symbolName = "MoviesApp.ListViewController.loadPage() -&gt; ()"
                   moduleName = "MoviesApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Network/NetworkManager.swift"
+                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/UI/ListViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "35"
-                  endingLineNumber = "35"
-                  offsetFromSymbolStart = "758">
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "241">
                </Location>
                <Location
-                  uuid = "EC8B5E0F-9C1E-41CE-9889-A450868B29E2 - 3c228770452f794e"
+                  uuid = "43BC3BCD-38FE-4C12-9B34-A85E9EC1DB9E - 9fb7fad29eaeb08b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 ((key: Swift.String, value: Swift.String)) -&gt; Foundation.URLQueryItem in MoviesApp.NetworkManager.(performRequest in _6F4E12E52BD16E0F2F1D1791DCD68799)(for: MoviesApp.EndpointProtocol) -&gt; Swift.Optional&lt;Foundation.URLRequest&gt;"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Optional&lt;Swift.Int&gt;, Swift.Error&gt;) -&gt; () in MoviesApp.ListViewController.loadPage() -&gt; ()"
                   moduleName = "MoviesApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Network/NetworkManager.swift"
+                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/UI/ListViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36"
-                  offsetFromSymbolStart = "39">
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "280">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DC55F28B-D0F6-4CB5-AFBA-FDC0D6BD51E7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "performRequest(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "49000098-1F82-497C-897B-C636522D66E4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "sendRequest(_:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D3D9E574-6EC1-481D-BCE6-72974582E6D5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "sendRequest(_:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C8930B7F-22CC-41AB-A529-594F1F8C50A0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "sendRequest(_:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D8B0349E-CDAC-402A-B862-126DC76E4DAB"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "sendRequest(_:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E2BD391A-2D75-40ED-8CA5-67ABADBF875E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "sendRequest(_:completion:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
