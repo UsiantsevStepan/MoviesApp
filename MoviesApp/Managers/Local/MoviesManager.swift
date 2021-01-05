@@ -18,6 +18,7 @@ class MoviesManager {
     }
     
     private var lists = [(ListName, [Movie])]()
+    private var pageNumber: Int?
     
     let dataParser = DataParser()
     let networkManager = NetworkManager()
@@ -130,6 +131,11 @@ class MoviesManager {
                         group.leave()
                     case let .success(data):
                         self.lists.append((listName, data.0))
+                        if data.0.isEmpty {
+                            self.pageNumber = nil
+                        } else {
+                            self.pageNumber = page
+                        }
                         // MARK: - Deleting previous data
                         if page == 1 {
                             self.deletePreviousData(for: listName.rawValue)
@@ -146,7 +152,7 @@ class MoviesManager {
             for movie in self.lists {
                 self.saveMovies(listName: movie.0.rawValue, movie.1)
             }
-            completion(.success(page))
+            completion(.success(self.pageNumber))
             
         }
     }
@@ -162,11 +168,6 @@ class MoviesManager {
                     completion(.failure(MoviesManagerError.parseError))
                     return
                 }
-//                if moviesListData.page == 1 {
-//                    DispatchQueue.main.async {
-//                        self.deletePreviousData(for: listName)
-//                    }
-//                }
                 
                 completion(.success((moviesListData.results, moviesListData.page)))
             }

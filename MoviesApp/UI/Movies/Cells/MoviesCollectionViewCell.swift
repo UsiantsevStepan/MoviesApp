@@ -48,29 +48,23 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
     }
     
-    func configure(with popularMovieModel: MoviePreviewCellModel) {
-        movieTitleLabel.text = popularMovieModel.title
-        //        requiredHeight(text: movieTitleLabel.text!)
-        movieGenreLabel.text = popularMovieModel.genreName
-        let labelNumberOfLines = countLabelLines(label: movieTitleLabel)
-        if labelNumberOfLines <= 2 {
-            movieTitleLabel.numberOfLines = labelNumberOfLines
-            movieTitleLabel.lineBreakMode = .byWordWrapping
-        } else {
-            print("\(movieTitleLabel.frame.size.height)")
-            movieTitleLabel.numberOfLines = 0
-            movieTitleLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        }
+    func configure(with movieModel: MoviePreviewCellModel) {
+        movieGenreLabel.text = movieModel.genreName
+
+        movieTitleLabel.text = movieModel.title
+        movieTitleLabel.numberOfLines = min(countLabelLines(label: movieTitleLabel), 2)
+        movieTitleLabel.lineBreakMode = .byWordWrapping
         
-        //        posterImageView.kf.indicatorType = .activity
-        let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + (popularMovieModel.posterPath ?? ""))
+        let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + (movieModel.posterPath ?? ""))
         // TODO: - Create placeholder
         posterImageView.kf.setImage(with: posterUrl, placeholder: #imageLiteral(resourceName: "Poster"))
         
-        guard let movieRating = popularMovieModel.voteAverage, popularMovieModel.voteAverage != 0 else {
+        guard let movieRating = movieModel.voteAverage, movieModel.voteAverage != 0 else {
             movieRatingLabel.isHidden = true
             return
         }
+        
+        movieRatingLabel.isHidden = false
         
         if movieRating >= 7 {
             movieRatingLabel.backgroundColor = .systemGreen
@@ -125,7 +119,6 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.layer.cornerRadius = 8.0
         posterImageView.clipsToBounds = true
-        //        posterImageView.image = UIImage(named: "Poster")
         
         movieRatingLabel.font = UIFont.boldSystemFont(ofSize: 12)
         movieRatingLabel.textColor = .white
@@ -139,17 +132,6 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         movieGenreLabel.font = UIFont.systemFont(ofSize: 8)
         movieGenreLabel.textColor = .gray
     }
-    
-    // MARK: - Temporary func for searching UILabel frame height
-    //    func requiredHeight(text: String) {
-    //        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: .max))
-    //        label.numberOfLines = 0
-    //        label.lineBreakMode = .byWordWrapping
-    //        label.font = UIFont.boldSystemFont(ofSize: 10)
-    //        label.text = text
-    //        label.sizeToFit()
-    //        print(label.frame.height)
-    //    }
     
     // MARK: - Counting lines of specific UILabel
     func countLabelLines(label: UILabel) -> Int {

@@ -43,6 +43,13 @@ class MoviesTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        movies = []
+        headerLabel.text = nil
+    }
+    
     private func addSubviews() {
         self.addSubview(stackView)
         

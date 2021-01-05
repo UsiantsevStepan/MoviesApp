@@ -11,6 +11,7 @@ class ListViewController: UIViewController {
     private let moviesManager = MoviesManager()
     private var isLoading = false
     private var isRefreshing = false
+    private var isListFull = false
     private var pageNumber = 1
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
@@ -24,10 +25,8 @@ class ListViewController: UIViewController {
         return movies.1
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: - Make title change its name depending on list's name
         navigationItem.title = listName?.rawValue ?? "List"
         view.backgroundColor = .clear
         
@@ -48,12 +47,7 @@ class ListViewController: UIViewController {
     
     func loadPage() {
         
-        // TODO: - Find a place where I can store "isListFull" flag
-        if isLoading { return }
-        if pageNumber > 5 {
-            collectionView.reloadData()
-            return
-        }
+        if isLoading || isListFull { return }
         
         isLoading = true
         guard let listName = listName else { return }
@@ -64,11 +58,17 @@ class ListViewController: UIViewController {
                 switch result {
                 case let .failure(error):
                     self.showError(error)
-                case .success:
+                    self.isLoading = false
+                    self.pageNumber = 0
+                    return
+                case let .success(page):
+                    if page == nil {
+                        self.isLoading = false
+                        self.isListFull = true
+                    }
                     self.pageNumber += 1
                     self.collectionView.reloadData()
                 }
-                //                self.isLoading = false
             }
         })
     }
@@ -89,6 +89,7 @@ class ListViewController: UIViewController {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 4
+        layout.estimatedItemSize = .zero
         collectionView.contentInset.top = 16
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.setCollectionViewLayout(layout, animated: true)
@@ -146,13 +147,9 @@ extension ListViewController: UICollectionViewDelegateFlowLayout {
             for: indexPath
         ) as! FooterCollectionReusableView
         
-        if self.isRefreshing {
-            footer.configure(isLoading: true)
-            isRefreshing = false
-            //            isLoading = false
-        } else {
-            footer.configure(isLoading: false)
-        }
+        footer.configure(isLoading: isRefreshing)
+        if isRefreshing { isRefreshing.toggle() }
+        
         return footer
     }
     
