@@ -191,6 +191,7 @@ class MoviesManager {
             newMovie.posterPath = movie.posterPath
             newMovie.genreName = genreName ?? ""
             newMovie.voteAverage = Double(movie.voteAverage)
+            newMovie.id = Int64(movie.id)
             
             list.addToMovies(newMovie)
         }

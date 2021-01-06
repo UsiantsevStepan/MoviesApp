@@ -7,8 +7,12 @@
 
 import UIKit
 
-protocol MoviesTableViewCellDelegate: class {
+protocol MoviesTableViewCellButtonDelegate: class {
     func showFullList(with name: ListName)
+}
+
+protocol MoviesTableViewCellDelegate: class {
+    func showMovieDetails()
 }
 
 class MoviesTableViewCell: UITableViewCell {
@@ -22,7 +26,10 @@ class MoviesTableViewCell: UITableViewCell {
     
     private var listName: ListName?
     
-    weak var delegate: MoviesTableViewCellDelegate?
+    weak var buttonDelegate: MoviesTableViewCellButtonDelegate?
+    weak var cellDelegate: MoviesTableViewCellDelegate?
+    
+    var onDidSelectItem: ((IndexPath) -> ())?
     
     let headerButton = UIButton()
     
@@ -65,7 +72,7 @@ class MoviesTableViewCell: UITableViewCell {
         stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 8).isActive = true
+        headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 12).isActive = true
         headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 4).isActive = true
         headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
 
@@ -115,16 +122,17 @@ class MoviesTableViewCell: UITableViewCell {
     
     @objc func showFullList(_ sender: UIButton) {
         guard let listName = listName else { return }
-        delegate?.showFullList(with: listName)
+        buttonDelegate?.showFullList(with: listName)
+    }
+    
+    func showMovieDetails() {
+        cellDelegate?.showMovieDetails()
     }
 }
 
 extension MoviesTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // TODO: - Find a better solution to display only 20 movies at Movies screen (fix the hardcode)
         return movies.count
-        // MARK: - Hardcoding with Int make app crash in cellForItemAt (collectionView)
-//        return 20
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -145,5 +153,9 @@ extension MoviesTableViewCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        showMovieDetails()
     }
 }

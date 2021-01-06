@@ -167,4 +167,9 @@ extension ListViewController: UICollectionViewDelegateFlowLayout {
         
         return size
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = MovieDetailsViewController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
