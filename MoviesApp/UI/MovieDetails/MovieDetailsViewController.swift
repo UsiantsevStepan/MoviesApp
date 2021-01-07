@@ -10,7 +10,8 @@ import UIKit
 class MovieDetailsViewController: UIViewController {
     
     private let tableView = UITableView()
-    private var movieId: Int?
+    
+    var movieId: Int?
     
     override func viewDidLoad() {
         
@@ -21,6 +22,7 @@ class MovieDetailsViewController: UIViewController {
         addSubviews()
         setConstraints()
         configureSubviews()
+        print("\(movieId)")
     }
     
     private func addSubviews() {

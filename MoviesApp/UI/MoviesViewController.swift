@@ -81,8 +81,10 @@ extension MoviesViewController: MoviesTableViewCellDelegate {
         controller.loadPage()
     }
     
-    func showMovieDetails() {
+    func showMovieDetails(with indexPath: IndexPath, movies: [MoviePreviewCellModel]) {
         let controller = MovieDetailsViewController()
         navigationController?.pushViewController(controller, animated: true)
+        let movie = movies[indexPath.row]
+        controller.movieId = movie.movieId
     }
 }

@@ -12,6 +12,7 @@ class ListViewController: UIViewController {
     private var isRefreshing = false
     private var isListFull = false
     private var pageNumber = 1
+    private var movieId: Int?
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
     var isLoading = false
@@ -171,5 +172,7 @@ extension ListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let controller = MovieDetailsViewController()
         navigationController?.pushViewController(controller, animated: true)
+        let movie = movies[indexPath.row]
+        controller.movieId = movie.movieId
     }
 }
