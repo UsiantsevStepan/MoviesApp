@@ -231,7 +231,8 @@ class MoviesManager {
                 title: movie.title,
                 voteAverage: movie.voteAverage,
                 genreName: movie.genreName,
-                posterPath: movie.posterPath
+                posterPath: movie.posterPath,
+                movieId: Int(movie.movieId)
             )
         }
     }

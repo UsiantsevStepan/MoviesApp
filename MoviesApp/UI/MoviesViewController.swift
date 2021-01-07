@@ -48,7 +48,6 @@ class MoviesViewController: UITableViewController {
         
         let movies = categories[indexPath.row]
         listName = movies.0
-        cell.buttonDelegate = self
         cell.cellDelegate = self
         cell.configureList(with: movies.0, movies: movies.1)
         
@@ -73,17 +72,14 @@ class MoviesViewController: UITableViewController {
     }
 }
 
-extension MoviesViewController: MoviesTableViewCellButtonDelegate {
-    
+extension MoviesViewController: MoviesTableViewCellDelegate {
     func showFullList(with name: ListName) {
         let controller = ListViewController()
         controller.listName = name
         navigationController?.pushViewController(controller, animated: true)
+        controller.isLoading = true
         controller.loadPage()
     }
-}
-
-extension MoviesViewController: MoviesTableViewCellDelegate {
     
     func showMovieDetails() {
         let controller = MovieDetailsViewController()

@@ -12,4 +12,5 @@ struct MoviePreviewCellModel {
     let voteAverage: Double?
     let genreName: String?
     let posterPath: String?
+    let movieId: Int?
 }

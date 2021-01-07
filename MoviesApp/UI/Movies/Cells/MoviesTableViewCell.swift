@@ -7,11 +7,8 @@
 
 import UIKit
 
-protocol MoviesTableViewCellButtonDelegate: class {
-    func showFullList(with name: ListName)
-}
-
 protocol MoviesTableViewCellDelegate: class {
+    func showFullList(with name: ListName)
     func showMovieDetails()
 }
 
@@ -26,7 +23,6 @@ class MoviesTableViewCell: UITableViewCell {
     
     private var listName: ListName?
     
-    weak var buttonDelegate: MoviesTableViewCellButtonDelegate?
     weak var cellDelegate: MoviesTableViewCellDelegate?
     
     var onDidSelectItem: ((IndexPath) -> ())?
@@ -122,7 +118,7 @@ class MoviesTableViewCell: UITableViewCell {
     
     @objc func showFullList(_ sender: UIButton) {
         guard let listName = listName else { return }
-        buttonDelegate?.showFullList(with: listName)
+        cellDelegate?.showFullList(with: listName)
     }
     
     func showMovieDetails() {

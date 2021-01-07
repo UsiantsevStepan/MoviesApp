@@ -10,6 +10,7 @@ import UIKit
 class MovieDetailsViewController: UIViewController {
     
     private let tableView = UITableView()
+    private var movieId: Int?
     
     override func viewDidLoad() {
         
@@ -38,6 +39,7 @@ class MovieDetailsViewController: UIViewController {
         self.view.backgroundColor = .white
         tableView.register(MoviesMainInfoCell.self, forCellReuseIdentifier: MoviesMainInfoCell.reuseId)
         tableView.register(MoviesOverviewCell.self, forCellReuseIdentifier: MoviesOverviewCell.reuseId)
+        tableView.register(MoviesRatingCell.self, forCellReuseIdentifier: MoviesRatingCell.reuseId)
         tableView.register(MoviesBudgetAndRevenueCell.self, forCellReuseIdentifier: MoviesBudgetAndRevenueCell.reuseId)
     }
     
@@ -54,7 +56,7 @@ extension MovieDetailsViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -71,7 +73,7 @@ extension MovieDetailsViewController: UITableViewDataSource {
         switch section {
         case 0:
             return nil
-        case 1, 2:
+        case 1, 2, 3:
             return headerView
         default:
             fatalError()
@@ -84,8 +86,6 @@ extension MovieDetailsViewController: UITableViewDataSource {
         } else {
             return 20.0
         }
-        
-//        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -95,6 +95,8 @@ extension MovieDetailsViewController: UITableViewDataSource {
         case 1:
             return "Overview"
         case 2:
+            return "Rating"
+        case 3:
             return "Budget & Revenue"
         default:
             fatalError()
@@ -109,7 +111,6 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: MoviesMainInfoCell.reuseId,
                 for: indexPath
             ) as! MoviesMainInfoCell
-            moviesMainInfoCell.contentView.isUserInteractionEnabled = false
             return moviesMainInfoCell
         case 1:
             let moviesOverviewCell = tableView.dequeueReusableCell(
@@ -118,6 +119,12 @@ extension MovieDetailsViewController: UITableViewDataSource {
             ) as! MoviesOverviewCell
             return moviesOverviewCell
         case 2:
+            let ratingCell = tableView.dequeueReusableCell(
+                withIdentifier: MoviesRatingCell.reuseId,
+                for: indexPath
+            ) as! MoviesRatingCell
+            return ratingCell
+        case 3:
             let moviesBudgetAndRevenueCell = tableView.dequeueReusableCell(
                 withIdentifier: MoviesBudgetAndRevenueCell.reuseId,
                 for: indexPath

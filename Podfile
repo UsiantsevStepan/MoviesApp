@@ -7,5 +7,6 @@ target 'MoviesApp' do
 
   # Pods for MoviesApp
   pod "Kingfisher", "~> 5.0" 
+  pod 'Cosmos', '~> 23.0'
 
 end

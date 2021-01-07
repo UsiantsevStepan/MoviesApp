@@ -56,7 +56,6 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         movieTitleLabel.lineBreakMode = .byWordWrapping
         
         let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + (movieModel.posterPath ?? ""))
-        // TODO: - Create placeholder
         posterImageView.kf.setImage(with: posterUrl, placeholder: #imageLiteral(resourceName: "Poster"))
         
         guard let movieRating = movieModel.voteAverage, movieModel.voteAverage != 0 else {

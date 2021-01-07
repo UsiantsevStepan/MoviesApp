@@ -9,12 +9,12 @@ import UIKit
 
 class ListViewController: UIViewController {
     private let moviesManager = MoviesManager()
-    private var isLoading = false
     private var isRefreshing = false
     private var isListFull = false
     private var pageNumber = 1
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
+    var isLoading = false
     var listName: ListName?
     var movies: [MoviePreviewCellModel] {
         // MARK: - Check the listName
