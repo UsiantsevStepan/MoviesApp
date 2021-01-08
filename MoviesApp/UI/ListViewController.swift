@@ -174,5 +174,8 @@ extension ListViewController: UICollectionViewDelegateFlowLayout {
         navigationController?.pushViewController(controller, animated: true)
         let movie = movies[indexPath.row]
         controller.movieId = movie.movieId
+        controller.movieTitle = movie.title
+        controller.movieRating = movie.voteAverage
+        controller.moviePosterPath = movie.posterPath
     }
 }

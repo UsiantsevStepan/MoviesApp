@@ -35,11 +35,17 @@ class MoviesRatingCell: UITableViewCell {
         
     }
     
-    func addSubviews() {
+    func configure(with rating: Double?) {
+        guard let rating = rating else { return }
+        ratingLabel.text = "\(rating)"
+        starsView.rating = rating
+    }
+    
+    private func addSubviews() {
         [starsView, ratingLabel].forEach(self.addSubview)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         starsView.translatesAutoresizingMaskIntoConstraints = false
         starsView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         starsView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
@@ -57,10 +63,10 @@ class MoviesRatingCell: UITableViewCell {
         
     }
     
-    func configureSubviews() {
+    private func configureSubviews() {
         // Temporary
-        ratingLabel.text = "7.3"
-        starsView.rating = 7.3
+//        ratingLabel.text = "7.3"
+//        starsView.rating = 7.3
 
         ratingLabel.font = UIFont.boldSystemFont(ofSize: 24)
         ratingLabel.textAlignment = .center

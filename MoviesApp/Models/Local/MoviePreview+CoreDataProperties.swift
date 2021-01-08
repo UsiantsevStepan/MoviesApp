@@ -2,7 +2,7 @@
 //  MoviePreview+CoreDataProperties.swift
 //  MoviesApp
 //
-//  Created by Степан Усьянцев on 06.01.2021.
+//  Created by Степан Усьянцев on 08.01.2021.
 //
 //
 
@@ -17,11 +17,18 @@ extension MoviePreview {
     }
 
     @NSManaged public var genreId: Int64
-    @NSManaged public var genreName: String?
+    @NSManaged public var genreName: [NSString]
+    @NSManaged public var movieId: Int64
     @NSManaged public var posterPath: String?
     @NSManaged public var title: String?
     @NSManaged public var voteAverage: Double
-    @NSManaged public var movieId: Int64
+    @NSManaged public var adult: Bool
+    @NSManaged public var originalTitle: String?
+    @NSManaged public var releaseDate: String?
+    @NSManaged public var runtime: Int64
+    @NSManaged public var overview: String?
+    @NSManaged public var budget: Int64
+    @NSManaged public var revenue: Int64
     @NSManaged public var list: NSSet?
 
 }

@@ -52,6 +52,12 @@ class MoviesManager {
         return (listName, createMoviePreviewCellModel(from: fetchedMovies))
     }
     
+    func getMovie(movieId: Int?) -> MovieDetailsModel? {
+        guard let movieId = movieId else { return nil }
+        guard let fetchedMovie = fetchMovieById(movieId: movieId) else { return nil }
+        return createMovieDetailsModel(from: fetchedMovie)
+    }
+    
     public func loadMovies(page: Int? = nil, _ completion: @escaping ((Result<(Int?),Error>) -> Void)) {
         let group = DispatchGroup()
         let queue = DispatchQueue.global(qos: .background)
@@ -152,8 +158,26 @@ class MoviesManager {
             for movie in self.lists {
                 self.saveMovies(listName: movie.0.rawValue, movie.1)
             }
-            completion(.success(self.pageNumber))
             
+            completion(.success(self.pageNumber))
+        }
+    }
+    
+    public func getMoviesDetails(movieId: Int?, completion: @escaping ((Result<MoviesDetailsData,Error>) -> Void)) {
+        guard let movieId = movieId else { return }
+        networkManager.getData(with: ApiEndpoint.getMovieDetails(movieId: movieId)) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .failure(error):
+                completion(.failure(error))
+            case let .success(data):
+                guard let moviesDetailsData = self.dataParser.parse(withData: data, to: MoviesDetailsData.self) else {
+                    completion(.failure(MoviesManagerError.parseError))
+                    return
+                }
+                self.saveDetails(movieId: movieId, details: moviesDetailsData)
+                completion(.success(moviesDetailsData))
+            }
         }
     }
     
@@ -174,6 +198,30 @@ class MoviesManager {
         }
     }
     
+    private func saveDetails(movieId: Int?, details: MoviesDetailsData) -> () {
+        context.refreshAllObjects()
+        
+        guard let movieId = movieId else { return }
+        let movie = fetchMovieById(movieId: movieId)
+        movie?.setValue(details.adult, forKey: "adult")
+        let genres = Array(details.genres.map {$0.name as NSString})
+        movie?.setValue(genres, forKey: "genreName")
+        movie?.setValue(details.originalTitle, forKey: "originalTitle")
+        movie?.setValue(details.releaseDate, forKey: "releaseDate")
+        movie?.setValue(Int64(details.runtime ?? 0), forKey: "runtime")
+        movie?.setValue(details.overview ?? "", forKey: "overview")
+        movie?.setValue(Int64(details.budget), forKey: "budget")
+        movie?.setValue(Int64(details.revenue), forKey: "revenue")
+        
+        //MARK: - Saving data
+        do {
+            try context.save()
+        }
+        catch let error as NSError {
+            print(error, error.localizedDescription)
+        }
+    }
+    
     private func saveMovies(listName: String, _ movies: [Movie]) -> () {
         
         //MARK: - Creating lists which will store movies previews
@@ -189,7 +237,8 @@ class MoviesManager {
             newMovie.genreId = Int64(movie.genreIds.first ?? 0)
             matchGenres(newMovie)
             newMovie.posterPath = movie.posterPath
-            newMovie.genreName = genreName ?? ""
+            let mainGenreName = (genreName ?? "") as NSString
+            newMovie.genreName.append(mainGenreName)
             newMovie.voteAverage = Double(movie.voteAverage)
             newMovie.movieId = Int64(movie.id)
             
@@ -202,6 +251,22 @@ class MoviesManager {
         }
         catch let error as NSError {
             print(error, error.localizedDescription)
+        }
+    }
+    
+    private func fetchMovieById(movieId: Int) -> MoviePreview? {
+        do {
+            let request = MoviePreview.fetchRequest() as NSFetchRequest<MoviePreview>
+            let predicate = NSPredicate(format: "movieId = %@", NSNumber(value: movieId))
+            request.predicate = predicate
+            
+            let moviesSet = try context.fetch(request)
+//            let moviesSet = moviesList.first?.movies?.allObjects as? [MoviePreview] ?? []
+            guard let movie = moviesSet.first else { return nil }
+            return movie
+        }
+        catch {
+            return nil
         }
     }
     
@@ -230,11 +295,24 @@ class MoviesManager {
             return MoviePreviewCellModel(
                 title: movie.title,
                 voteAverage: movie.voteAverage,
-                genreName: movie.genreName,
+                genreName: String(movie.genreName.first ?? ""),
                 posterPath: movie.posterPath,
                 movieId: Int(truncatingIfNeeded: movie.movieId)
             )
         }
+    }
+    
+    private func createMovieDetailsModel(from moviesData: MoviePreview) -> MovieDetailsModel {
+        return MovieDetailsModel(
+            adult: moviesData.adult,
+            genresNames: moviesData.genreName as [String],
+            originalTitle: moviesData.originalTitle ?? "",
+            releaseDate: moviesData.releaseDate ?? "",
+            runtime: Int(moviesData.runtime),
+            overview: moviesData.overview,
+            budget: Int(moviesData.budget),
+            revenue: Int(moviesData.revenue)
+        )
     }
     
     private func matchGenres(_ movie: MoviePreview) {

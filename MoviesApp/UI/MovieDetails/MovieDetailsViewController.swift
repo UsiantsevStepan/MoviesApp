@@ -10,19 +10,40 @@ import UIKit
 class MovieDetailsViewController: UIViewController {
     
     private let tableView = UITableView()
+    private let moviesManager = MoviesManager()
     
     var movieId: Int?
+    var movieTitle: String?
+    var moviePosterPath: String?
+    var movieRating: Double?
+    var movie: MovieDetailsModel? {
+            self.moviesManager.getMovie(movieId: movieId)
+    }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         
+        moviesManager.getMoviesDetails(movieId: movieId) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case let .failure(error):
+                    self.showError(error)
+                    return
+                case .success:
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
         addSubviews()
         setConstraints()
         configureSubviews()
-        print("\(movieId)")
+        print("\(movieId)" + (movieTitle ?? "") + (moviePosterPath ?? "") + " \(movieRating)")
     }
     
     private func addSubviews() {
@@ -113,6 +134,7 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: MoviesMainInfoCell.reuseId,
                 for: indexPath
             ) as! MoviesMainInfoCell
+            moviesMainInfoCell.configure(posterPath: moviePosterPath, title: movieTitle, originalName: movie?.originalTitle, year: movie?.releaseDate ?? "")
             return moviesMainInfoCell
         case 1:
             let moviesOverviewCell = tableView.dequeueReusableCell(
@@ -125,6 +147,7 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: MoviesRatingCell.reuseId,
                 for: indexPath
             ) as! MoviesRatingCell
+            ratingCell.configure(with: movieRating)
             return ratingCell
         case 3:
             let moviesBudgetAndRevenueCell = tableView.dequeueReusableCell(

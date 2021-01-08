@@ -10,10 +10,17 @@
         </uniquenessConstraints>
     </entity>
     <entity name="MoviePreview" representedClassName="MoviePreview" syncable="YES">
+        <attribute name="adult" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="budget" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="genreId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="genreName" optional="YES" attributeType="String"/>
+        <attribute name="genreName" optional="YES" attributeType="Transformable"/>
         <attribute name="movieId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="originalTitle" optional="YES" attributeType="String"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
         <attribute name="posterPath" optional="YES" attributeType="String"/>
+        <attribute name="releaseDate" optional="YES" attributeType="String"/>
+        <attribute name="revenue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="runtime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="List" inverseName="movies" inverseEntity="List"/>
@@ -25,6 +32,6 @@
     </entity>
     <elements>
         <element name="List" positionX="-54" positionY="27" width="128" height="59"/>
-        <element name="MoviePreview" positionX="-54" positionY="-9" width="128" height="134"/>
+        <element name="MoviePreview" positionX="-54" positionY="-9" width="128" height="239"/>
     </elements>
 </model>
