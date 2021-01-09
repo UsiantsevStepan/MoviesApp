@@ -12,6 +12,7 @@ class MoviesBudgetAndRevenueCell: UITableViewCell {
     
     private let movieBudgetLabel = UILabel()
     private let movieRevenueLabel = UILabel()
+    private let numberFormatter = NumberFormatter()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,14 +32,34 @@ class MoviesBudgetAndRevenueCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        movieBudgetLabel.text = nil
+        movieRevenueLabel.text = nil
+    }
+    
+    func configure(budget: Int?, revenue: Int?) {
+        guard let budget = budget, let revenue = revenue else { return }
+        numberFormatter.numberStyle = .decimal
+        let formattedBudget = numberFormatter.string(from: NSNumber(value: budget))
+        let formattedRevenue = numberFormatter.string(from: NSNumber(value: revenue))
+        
+        if budget == 0 && revenue != 0 {
+            movieRevenueLabel.text = "$" + (formattedRevenue ?? "") + " - revenue"
+            movieBudgetLabel.text = nil
+        } else if budget != 0 && revenue == 0{
+            movieBudgetLabel.text = "$" + (formattedBudget ?? "") + " - budget"
+            movieRevenueLabel.text = nil
+        } else {
+            movieBudgetLabel.text = "$" + (formattedBudget ?? "") + " - budget"
+            movieRevenueLabel.text = "$" + (formattedRevenue ?? "") + " - revenue"
+        }
         
     }
     
-    func addSubviews() {
+    private func addSubviews() {
         [movieBudgetLabel, movieRevenueLabel].forEach(self.addSubview)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         movieBudgetLabel.translatesAutoresizingMaskIntoConstraints = false
         movieBudgetLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         movieBudgetLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
@@ -52,11 +73,7 @@ class MoviesBudgetAndRevenueCell: UITableViewCell {
         
     }
     
-    func configureSubviews() {
-        // Temporary
-        movieBudgetLabel.text = "Budget: $60 000 000"
-        movieRevenueLabel.text = "Revenue: $100 853 753"
-
+    private func configureSubviews() {
         movieBudgetLabel.font = UIFont.systemFont(ofSize: 16)
         movieRevenueLabel.font = UIFont.systemFont(ofSize: 16)
     }

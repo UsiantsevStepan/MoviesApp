@@ -198,21 +198,22 @@ class MoviesManager {
         }
     }
     
-    private func saveDetails(movieId: Int?, details: MoviesDetailsData) -> () {
-        context.refreshAllObjects()
+    private func saveDetails(movieId: Int?, details: MoviesDetailsData) {
         
         guard let movieId = movieId else { return }
         let movie = fetchMovieById(movieId: movieId)
-        movie?.setValue(details.adult, forKey: "adult")
+        movie?.adult = details.adult
         let genres = Array(details.genres.map {$0.name as NSString})
-        movie?.setValue(genres, forKey: "genreName")
-        movie?.setValue(details.originalTitle, forKey: "originalTitle")
-        movie?.setValue(details.countries.first?.name, forKey: "country")
-        movie?.setValue(details.releaseDate, forKey: "releaseDate")
-        movie?.setValue(Int64(details.runtime ?? 0), forKey: "runtime")
-        movie?.setValue(details.overview ?? "", forKey: "overview")
-        movie?.setValue(Int64(details.budget), forKey: "budget")
-        movie?.setValue(Int64(details.revenue), forKey: "revenue")
+        movie?.genreName = genres
+        movie?.originalTitle = details.originalTitle
+        movie?.country = details.countries.first?.name
+        movie?.releaseDate = details.releaseDate
+        if let movieRuntime = details.runtime {
+            movie?.runtime = Int64(movieRuntime)
+        }
+        movie?.overview = details.overview
+        movie?.budget = Int64(details.budget)
+        movie?.revenue = Int64(details.revenue)
         
         //MARK: - Saving data
         do {
@@ -230,7 +231,6 @@ class MoviesManager {
         list.name = listName
         
         //MARK: - Creating a movie object
-        context.refreshAllObjects()
         for movie in movies {
             let newMovie = MoviePreview(context: self.context)
             

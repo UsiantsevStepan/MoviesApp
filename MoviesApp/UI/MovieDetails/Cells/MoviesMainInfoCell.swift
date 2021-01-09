@@ -135,13 +135,6 @@ class MoviesMainInfoCell: UITableViewCell {
     }
     
     func configureSubviews() {
-        // Temporary
-        //        moviePosterImage.image = #imageLiteral(resourceName: "Poster")
-        //        movieTitleLabel.text = "Rascal does not dream of a Dreaming Girl"
-        //        movieOriginalNameAndYearLabel.text = "青春ブタ野郎はゆめみる少女の夢を見ない (2019)"
-        //        movieGenresLabel.text = "Anime, Drama, Fantasy"
-        //        movieCountryAndRuntimeLabel.text = "Japan, 1:29"
-        //        movieAdultImageView.image = #imageLiteral(resourceName: "Adult")
         
         movieTitleLabel.lineBreakMode = .byWordWrapping
         

@@ -30,14 +30,19 @@ class MoviesOverviewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        
+        movieOverviewLabel.text = nil
     }
     
-    func addSubviews() {
+    func configure(with overview: String?) {
+        guard let movieOverview = overview else { return }
+        movieOverviewLabel.text = movieOverview
+    }
+    
+    private func addSubviews() {
         self.addSubview(movieOverviewLabel)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         movieOverviewLabel.translatesAutoresizingMaskIntoConstraints = false
         movieOverviewLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         movieOverviewLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
@@ -46,10 +51,7 @@ class MoviesOverviewCell: UITableViewCell {
         
     }
     
-    func configureSubviews() {
-        // Temporary
-        movieOverviewLabel.text = "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion."
-
+    private func configureSubviews() {
         movieOverviewLabel.numberOfLines = 0
         movieOverviewLabel.font = UIFont.systemFont(ofSize: 16)
     }

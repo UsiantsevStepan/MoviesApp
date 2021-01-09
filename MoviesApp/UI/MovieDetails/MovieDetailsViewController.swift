@@ -17,7 +17,7 @@ class MovieDetailsViewController: UIViewController {
     var moviePosterPath: String?
     var movieRating: Double?
     var movie: MovieDetailsModel? {
-            self.moviesManager.getMovieDetails(movieId: movieId)
+        self.moviesManager.getMovieDetails(movieId: movieId)
     }
     
     override func viewDidLoad() {
@@ -43,7 +43,6 @@ class MovieDetailsViewController: UIViewController {
         addSubviews()
         setConstraints()
         configureSubviews()
-        print("\(movieId)" + (movieTitle ?? "") + (moviePosterPath ?? "") + " \(movieRating)")
     }
     
     private func addSubviews() {
@@ -75,7 +74,30 @@ extension MovieDetailsViewController: UITableViewDelegate {
 
 extension MovieDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            if movie?.overview != nil && movie?.overview != "" {
+                return 1
+            } else {
+                return 0
+            }
+        case 2:
+            if movieRating != nil && movieRating != 0 {
+                return 1
+            } else {
+                return 0
+            }
+        case 3:
+            if (movie?.budget != nil && movie?.budget != 0) && (movieRating != nil && movieRating != 0) {
+                return 1
+            } else {
+                return 0
+            }
+        default:
+            return 1
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -96,18 +118,53 @@ extension MovieDetailsViewController: UITableViewDataSource {
         switch section {
         case 0:
             return nil
-        case 1, 2, 3:
-            return headerView
+        case 1:
+            if movie?.overview != nil && movie?.overview != "" {
+                return headerView
+            } else {
+                return nil
+            }
+        case 2:
+            if movieRating != nil && movieRating != 0 {
+                return headerView
+            } else {
+                return nil
+            }
+        case 3:
+            if (movie?.budget != nil && movie?.budget != 0) && (movieRating != nil && movieRating != 0) {
+                return headerView
+            } else {
+                return nil
+            }
         default:
             fatalError()
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0.0
-        } else {
-            return 20.0
+        switch section {
+        case 0:
+            return 0
+        case 1:
+            if movie?.overview != nil && movie?.overview != "" {
+                return 20
+            } else {
+                return 0
+            }
+        case 2:
+            if movieRating != nil && movieRating != 0 {
+                return 20
+            } else {
+                return 0
+            }
+        case 3:
+            if (movie?.budget != nil && movie?.budget != 0) && (movieRating != nil && movieRating != 0) {
+                return 20
+            } else {
+                return 0
+            }
+        default:
+            fatalError()
         }
     }
     
@@ -116,11 +173,23 @@ extension MovieDetailsViewController: UITableViewDataSource {
         case 0:
             return ""
         case 1:
-            return "Overview"
+            if movie?.overview != nil && movie?.overview != "" {
+                return "Overview"
+            } else {
+                return ""
+            }
         case 2:
-            return "Rating"
+            if movieRating != nil && movieRating != 0 {
+                return "Rating"
+            } else {
+                return ""
+            }
         case 3:
-            return "Budget & Revenue"
+            if (movie?.budget != nil && movie?.budget != 0) && (movieRating != nil && movieRating != 0) {
+                return "Budget & Revenue"
+            } else {
+                return ""
+            }
         default:
             fatalError()
         }
@@ -150,6 +219,7 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: MoviesOverviewCell.reuseId,
                 for: indexPath
             ) as! MoviesOverviewCell
+            moviesOverviewCell.configure(with: movie?.overview)
             return moviesOverviewCell
         case 2:
             let ratingCell = tableView.dequeueReusableCell(
@@ -163,6 +233,7 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: MoviesBudgetAndRevenueCell.reuseId,
                 for: indexPath
             ) as! MoviesBudgetAndRevenueCell
+            moviesBudgetAndRevenueCell.configure(budget: movie?.budget, revenue: movie?.revenue)
             return moviesBudgetAndRevenueCell
         default:
             fatalError()
