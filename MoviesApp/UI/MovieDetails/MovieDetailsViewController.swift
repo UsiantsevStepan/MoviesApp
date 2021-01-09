@@ -17,7 +17,7 @@ class MovieDetailsViewController: UIViewController {
     var moviePosterPath: String?
     var movieRating: Double?
     var movie: MovieDetailsModel? {
-            self.moviesManager.getMovie(movieId: movieId)
+            self.moviesManager.getMovieDetails(movieId: movieId)
     }
     
     override func viewDidLoad() {
@@ -134,7 +134,16 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: MoviesMainInfoCell.reuseId,
                 for: indexPath
             ) as! MoviesMainInfoCell
-            moviesMainInfoCell.configure(posterPath: moviePosterPath, title: movieTitle, originalName: movie?.originalTitle, year: movie?.releaseDate ?? "")
+            moviesMainInfoCell.configure(
+                posterPath: moviePosterPath,
+                title: movieTitle,
+                originalName: movie?.originalTitle,
+                year: movie?.releaseDate,
+                genres: movie?.genresNames,
+                country: movie?.country,
+                runtime: movie?.runtime,
+                adult: movie?.adult
+            )
             return moviesMainInfoCell
         case 1:
             let moviesOverviewCell = tableView.dequeueReusableCell(

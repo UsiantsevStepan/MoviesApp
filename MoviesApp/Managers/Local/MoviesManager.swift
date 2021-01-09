@@ -52,7 +52,7 @@ class MoviesManager {
         return (listName, createMoviePreviewCellModel(from: fetchedMovies))
     }
     
-    func getMovie(movieId: Int?) -> MovieDetailsModel? {
+    func getMovieDetails(movieId: Int?) -> MovieDetailsModel? {
         guard let movieId = movieId else { return nil }
         guard let fetchedMovie = fetchMovieById(movieId: movieId) else { return nil }
         return createMovieDetailsModel(from: fetchedMovie)
@@ -175,7 +175,7 @@ class MoviesManager {
                     completion(.failure(MoviesManagerError.parseError))
                     return
                 }
-                self.saveDetails(movieId: movieId, details: moviesDetailsData)
+                    self.saveDetails(movieId: movieId, details: moviesDetailsData)
                 completion(.success(moviesDetailsData))
             }
         }
@@ -207,6 +207,7 @@ class MoviesManager {
         let genres = Array(details.genres.map {$0.name as NSString})
         movie?.setValue(genres, forKey: "genreName")
         movie?.setValue(details.originalTitle, forKey: "originalTitle")
+        movie?.setValue(details.countries.first?.name, forKey: "country")
         movie?.setValue(details.releaseDate, forKey: "releaseDate")
         movie?.setValue(Int64(details.runtime ?? 0), forKey: "runtime")
         movie?.setValue(details.overview ?? "", forKey: "overview")
@@ -261,7 +262,6 @@ class MoviesManager {
             request.predicate = predicate
             
             let moviesSet = try context.fetch(request)
-//            let moviesSet = moviesList.first?.movies?.allObjects as? [MoviePreview] ?? []
             guard let movie = moviesSet.first else { return nil }
             return movie
         }
@@ -307,7 +307,8 @@ class MoviesManager {
             adult: moviesData.adult,
             genresNames: moviesData.genreName as [String],
             originalTitle: moviesData.originalTitle ?? "",
-            releaseDate: moviesData.releaseDate ?? "",
+            country: moviesData.country ?? "",
+            releaseDate: dateFormat(with: moviesData.releaseDate ?? ""),
             runtime: Int(moviesData.runtime),
             overview: moviesData.overview,
             budget: Int(moviesData.budget),
@@ -341,5 +342,16 @@ class MoviesManager {
                 print(error, error.localizedDescription)
             }
         }
+    }
+}
+
+private extension MoviesManager {
+    func dateFormat(with date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = .current
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let formattedDate = dateFormatter.date(from: date) else { return "" }
+        dateFormatter.dateFormat = "yyyy"
+        return dateFormatter.string(from: formattedDate)
     }
 }

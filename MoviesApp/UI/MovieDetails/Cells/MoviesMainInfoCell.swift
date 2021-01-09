@@ -35,14 +35,53 @@ class MoviesMainInfoCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        
+        moviePosterImage.image = nil
+        movieTitleLabel.text = nil
+        movieOriginalNameAndYearLabel.text = nil
+        movieGenresLabel.text = nil
+        movieCountryAndRuntimeLabel.text = nil
+        movieAdultImageView.image = nil
     }
     
-    func configure(posterPath: String?, title: String?, originalName: String?, year: String) {
+    func configure(posterPath: String?, title: String?, originalName: String?, year: String?, genres: [String]?, country: String?, runtime: Int?, adult: Bool?) {
         movieTitleLabel.text = title
         movieTitleLabel.numberOfLines = min(countLabelLines(label: movieTitleLabel), 2)
-        movieOriginalNameAndYearLabel.text = (originalName ?? "") + " " + "(\(year))"
+        
+        if let originalTitle = originalName, let releaseYear = year {
+            movieOriginalNameAndYearLabel.text = originalTitle + " " + "(\(releaseYear))"
+        } else if let originalTitle = originalName, year == nil {
+            movieOriginalNameAndYearLabel.text = originalTitle
+        } else if originalName == nil, let releaseYear = year {
+            movieOriginalNameAndYearLabel.text = "(\(releaseYear))"
+        } else {
+            movieOriginalNameAndYearLabel.isHidden = true
+        }
+        
         movieOriginalNameAndYearLabel.numberOfLines = min(countLabelLines(label: movieOriginalNameAndYearLabel), 2)
+        
+        if let genresNames = genres {
+            let formattedGenres = genresNames.joined(separator: ", ")
+            movieGenresLabel.text = formattedGenres
+        } else {
+            movieGenresLabel.isHidden = true
+        }
+       
+        if let movieRuntime = runtime, let countryName = country, country != "", runtime != 0 {
+            movieCountryAndRuntimeLabel.text = countryName + ", " + "\(movieRuntime) min."
+        } else if let countryName = country, country != "", (runtime == nil || runtime == 0) {
+            movieCountryAndRuntimeLabel.text = countryName
+        } else if (country == nil || country == ""), let movieRuntrime = runtime, runtime != 0 {
+            movieCountryAndRuntimeLabel.text = "\(movieRuntrime) min."
+        } else {
+            movieCountryAndRuntimeLabel.isHidden = true
+        }
+        
+        if adult ?? false {
+            movieAdultImageView.image = #imageLiteral(resourceName: "Adult")
+        } else {
+            movieAdultImageView.isHidden = true
+        }
+        
         guard let posterPath = posterPath else { return }
         let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + posterPath)
         moviePosterImage.kf.setImage(with: posterUrl, placeholder: #imageLiteral(resourceName: "Poster"))
@@ -97,12 +136,12 @@ class MoviesMainInfoCell: UITableViewCell {
     
     func configureSubviews() {
         // Temporary
-//        moviePosterImage.image = #imageLiteral(resourceName: "Poster")
-//        movieTitleLabel.text = "Rascal does not dream of a Dreaming Girl"
-//        movieOriginalNameAndYearLabel.text = "青春ブタ野郎はゆめみる少女の夢を見ない (2019)"
-        movieGenresLabel.text = "Anime, Drama, Fantasy"
-        movieCountryAndRuntimeLabel.text = "Japan, 1:29"
-        movieAdultImageView.image = #imageLiteral(resourceName: "Adult")
+        //        moviePosterImage.image = #imageLiteral(resourceName: "Poster")
+        //        movieTitleLabel.text = "Rascal does not dream of a Dreaming Girl"
+        //        movieOriginalNameAndYearLabel.text = "青春ブタ野郎はゆめみる少女の夢を見ない (2019)"
+        //        movieGenresLabel.text = "Anime, Drama, Fantasy"
+        //        movieCountryAndRuntimeLabel.text = "Japan, 1:29"
+        //        movieAdultImageView.image = #imageLiteral(resourceName: "Adult")
         
         movieTitleLabel.lineBreakMode = .byWordWrapping
         
