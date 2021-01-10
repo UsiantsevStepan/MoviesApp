@@ -7,63 +7,111 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "40C483E2-F8BB-4B20-8E49-FDE0F9E23655"
-            shouldBeEnabled = "No"
+            uuid = "4E3B5C23-02C4-4B06-960E-07919CCB5BDB"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
+            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "configure(posterPath:title:originalName:year:genres:country:runtime:adult:)"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "saveDetails(movieId:details:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "40C483E2-F8BB-4B20-8E49-FDE0F9E23655 - a778237a551ffa2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MoviesApp.MoviesMainInfoCell.configure(posterPath: Swift.Optional&lt;Swift.String&gt;, title: Swift.Optional&lt;Swift.String&gt;, originalName: Swift.Optional&lt;Swift.String&gt;, year: Swift.Optional&lt;Swift.String&gt;, genres: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, country: Swift.Optional&lt;Swift.String&gt;, runtime: Swift.Optional&lt;Swift.Int&gt;, adult: Swift.Optional&lt;Swift.Bool&gt;) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "4845">
-               </Location>
-               <Location
-                  uuid = "40C483E2-F8BB-4B20-8E49-FDE0F9E23655 - a778237a551ffa2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MoviesApp.MoviesMainInfoCell.configure(posterPath: Swift.Optional&lt;Swift.String&gt;, title: Swift.Optional&lt;Swift.String&gt;, originalName: Swift.Optional&lt;Swift.String&gt;, year: Swift.Optional&lt;Swift.String&gt;, genres: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, country: Swift.Optional&lt;Swift.String&gt;, runtime: Swift.Optional&lt;Swift.Int&gt;, adult: Swift.Optional&lt;Swift.Bool&gt;) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "4920">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2015A7B8-E6F3-4657-8DD4-5DE8D41D7D2E"
+            uuid = "3FE45E26-DFF1-4D13-8B93-71FF48F4EE4E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "configure(posterPath:title:originalName:year:genres:country:runtime:adult:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "10FB4F09-FA40-4E5C-AEAB-5C4A27A447A3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "configure(posterPath:title:originalName:year:genres:country:runtime:adult:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B317C096-4FB1-4EA0-9434-9365B8B1FCCF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "configure(posterPath:title:originalName:year:genres:country:runtime:adult:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9A1227CE-1205-414F-B0CF-14290557F2BA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "configure(posterPath:title:originalName:year:genres:country:runtime:adult:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "81F5F832-51C3-404F-A6A9-E0CF36E120E5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "configure(posterPath:title:originalName:year:genres:country:runtime:adult:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5754FD11-C44D-489F-A6DD-9984518322E5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoviesApp/UI/MovieDetails/Cells/MoviesMainInfoCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "configure(posterPath:title:originalName:year:genres:country:runtime:adult:)"
             landmarkType = "7">
          </BreakpointContent>

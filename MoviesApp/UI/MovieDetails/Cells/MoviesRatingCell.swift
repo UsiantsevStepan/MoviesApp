@@ -60,14 +60,9 @@ class MoviesRatingCell: UITableViewCell {
         ratingLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
         ratingLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         ratingLabel.widthAnchor.constraint(equalToConstant: 54).isActive = true
-        
     }
     
     private func configureSubviews() {
-        // Temporary
-//        ratingLabel.text = "7.3"
-//        starsView.rating = 7.3
-
         ratingLabel.font = UIFont.boldSystemFont(ofSize: 24)
         ratingLabel.textAlignment = .center
         

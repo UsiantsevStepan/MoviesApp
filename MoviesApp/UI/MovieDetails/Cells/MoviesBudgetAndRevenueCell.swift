@@ -37,22 +37,21 @@ class MoviesBudgetAndRevenueCell: UITableViewCell {
     }
     
     func configure(budget: Int?, revenue: Int?) {
-        guard let budget = budget, let revenue = revenue else { return }
         numberFormatter.numberStyle = .decimal
-        let formattedBudget = numberFormatter.string(from: NSNumber(value: budget))
-        let formattedRevenue = numberFormatter.string(from: NSNumber(value: revenue))
         
-        if budget == 0 && revenue != 0 {
-            movieRevenueLabel.text = "$" + (formattedRevenue ?? "") + " - revenue"
-            movieBudgetLabel.text = nil
-        } else if budget != 0 && revenue == 0{
+        if let budget = budget, budget != 0 {
+            let formattedBudget = numberFormatter.string(from: NSNumber(value: budget))
             movieBudgetLabel.text = "$" + (formattedBudget ?? "") + " - budget"
-            movieRevenueLabel.text = nil
         } else {
-            movieBudgetLabel.text = "$" + (formattedBudget ?? "") + " - budget"
-            movieRevenueLabel.text = "$" + (formattedRevenue ?? "") + " - revenue"
+            movieBudgetLabel.isHidden = true
         }
         
+        if let revenue = revenue, revenue != 0 {
+            let formattedRevenue = numberFormatter.string(from: NSNumber(value: revenue))
+            movieRevenueLabel.text = "$" + (formattedRevenue ?? "") + " - revenue"
+        } else {
+            movieRevenueLabel.isHidden = true
+        }
     }
     
     private func addSubviews() {

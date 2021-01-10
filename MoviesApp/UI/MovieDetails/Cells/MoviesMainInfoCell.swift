@@ -10,6 +10,8 @@ import UIKit
 class MoviesMainInfoCell: UITableViewCell {
     static let reuseId = "MoviesMainInfoCellReuseId"
     
+    private let titleStackView = UIStackView()
+    private let genreStackView = UIStackView()
     private let moviePosterImage = UIImageView()
     private let movieTitleLabel = UILabel()
     private let movieOriginalNameAndYearLabel = UILabel()
@@ -47,17 +49,22 @@ class MoviesMainInfoCell: UITableViewCell {
         movieTitleLabel.text = title
         movieTitleLabel.numberOfLines = min(countLabelLines(label: movieTitleLabel), 2)
         
-        if let originalTitle = originalName, let releaseYear = year {
-            movieOriginalNameAndYearLabel.text = originalTitle + " " + "(\(releaseYear))"
-        } else if let originalTitle = originalName, year == nil {
-            movieOriginalNameAndYearLabel.text = originalTitle
-        } else if originalName == nil, let releaseYear = year {
-            movieOriginalNameAndYearLabel.text = "(\(releaseYear))"
-        } else {
-            movieOriginalNameAndYearLabel.isHidden = true
+        var originalTitleAndYear: [String] = []
+        
+        if let originalTitle = originalName, !originalTitle.isEmpty {
+            originalTitleAndYear.append(originalTitle)
+        }
+        if let releaseYear = year, !releaseYear.isEmpty {
+            originalTitleAndYear.append("(\(releaseYear))")
         }
         
-        movieOriginalNameAndYearLabel.numberOfLines = min(countLabelLines(label: movieOriginalNameAndYearLabel), 2)
+        if originalTitleAndYear.isEmpty {
+            movieOriginalNameAndYearLabel.isHidden = true
+        } else {
+            movieOriginalNameAndYearLabel.isHidden = false
+            movieOriginalNameAndYearLabel.text = originalTitleAndYear.joined(separator: " ")
+            movieOriginalNameAndYearLabel.numberOfLines = min(countLabelLines(label: movieOriginalNameAndYearLabel), 2)
+        }
         
         if let genresNames = genres {
             let formattedGenres = genresNames.joined(separator: ", ")
@@ -66,14 +73,19 @@ class MoviesMainInfoCell: UITableViewCell {
             movieGenresLabel.isHidden = true
         }
        
-        if let movieRuntime = runtime, let countryName = country, country != "", runtime != 0 {
-            movieCountryAndRuntimeLabel.text = countryName + ", " + "\(movieRuntime) min."
-        } else if let countryName = country, country != "", (runtime == nil || runtime == 0) {
-            movieCountryAndRuntimeLabel.text = countryName
-        } else if (country == nil || country == ""), let movieRuntrime = runtime, runtime != 0 {
-            movieCountryAndRuntimeLabel.text = "\(movieRuntrime) min."
+        var countryAndRuntimeInfo: [String] = []
+        
+        if let countryName = country, !countryName.isEmpty {
+            countryAndRuntimeInfo.append(countryName)
+        }
+        if let runtime = runtime, runtime != 0 {
+            countryAndRuntimeInfo.append("\(runtime) min")
+        }
+        
+        if countryAndRuntimeInfo.isEmpty {
+            movieOriginalNameAndYearLabel.isHidden = true
         } else {
-            movieCountryAndRuntimeLabel.isHidden = true
+            movieCountryAndRuntimeLabel.text = countryAndRuntimeInfo.joined(separator: ", ")
         }
         
         if adult ?? false {
@@ -88,14 +100,9 @@ class MoviesMainInfoCell: UITableViewCell {
     }
     
     func addSubviews() {
-        [
-            moviePosterImage,
-            movieTitleLabel,
-            movieOriginalNameAndYearLabel,
-            movieGenresLabel,
-            movieCountryAndRuntimeLabel,
-            movieAdultImageView
-        ].forEach(self.addSubview)
+        [titleStackView, genreStackView, moviePosterImage].forEach(self.addSubview)
+        [movieTitleLabel, movieOriginalNameAndYearLabel].forEach(titleStackView.addArrangedSubview)
+        [movieGenresLabel, movieCountryAndRuntimeLabel, movieAdultImageView].forEach(genreStackView.addArrangedSubview)
         
     }
     
@@ -107,44 +114,41 @@ class MoviesMainInfoCell: UITableViewCell {
         moviePosterImage.heightAnchor.constraint(equalToConstant: 180).isActive = true
         moviePosterImage.widthAnchor.constraint(equalToConstant: 121).isActive = true
         
-        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        movieTitleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
-        movieTitleLabel.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
-        movieTitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
+        titleStackView.translatesAutoresizingMaskIntoConstraints = false
+        titleStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
+        titleStackView.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
+        titleStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
         
-        movieOriginalNameAndYearLabel.translatesAutoresizingMaskIntoConstraints = false
-        movieOriginalNameAndYearLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: 4).isActive = true
-        movieOriginalNameAndYearLabel.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
-        movieOriginalNameAndYearLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
-        
-        movieGenresLabel.translatesAutoresizingMaskIntoConstraints = false
-        movieGenresLabel.topAnchor.constraint(equalTo: movieOriginalNameAndYearLabel.bottomAnchor, constant: 16).isActive = true
-        movieGenresLabel.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
-        movieGenresLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
-        
-        movieCountryAndRuntimeLabel.translatesAutoresizingMaskIntoConstraints = false
-        movieCountryAndRuntimeLabel.topAnchor.constraint(equalTo: movieGenresLabel.bottomAnchor, constant: 4).isActive = true
-        movieCountryAndRuntimeLabel.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
-        movieCountryAndRuntimeLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
-        
+        genreStackView.translatesAutoresizingMaskIntoConstraints = false
+        genreStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 24).isActive = true
+//        genreStackView.bottomAnchor.constraint(greaterThanOrEqualTo: self.bottomAnchor, constant: -8).isActive = true
+        genreStackView.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
+        genreStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
+
         movieAdultImageView.translatesAutoresizingMaskIntoConstraints = false
-        movieAdultImageView.topAnchor.constraint(equalTo: movieCountryAndRuntimeLabel.bottomAnchor, constant: 8).isActive = true
-        movieAdultImageView.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
+        movieAdultImageView.leadingAnchor.constraint(equalTo: genreStackView.leadingAnchor).isActive = true
         movieAdultImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
         movieAdultImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
     }
     
     func configureSubviews() {
+        titleStackView.axis = .vertical
+        titleStackView.distribution = .equalSpacing
+        titleStackView.spacing = 4
+        
+        genreStackView.alignment = .leading
+        genreStackView.axis = .vertical
+        genreStackView.distribution = .equalSpacing
+        genreStackView.spacing = 4
         
         movieTitleLabel.lineBreakMode = .byWordWrapping
+        movieTitleLabel.font = UIFont.boldSystemFont(ofSize: 16)
         
         movieOriginalNameAndYearLabel.lineBreakMode = .byWordWrapping
         
         moviePosterImage.contentMode = .scaleAspectFill
         moviePosterImage.layer.cornerRadius = 8.0
         moviePosterImage.clipsToBounds = true
-        
-        movieTitleLabel.font = UIFont.boldSystemFont(ofSize: 16)
         
         movieOriginalNameAndYearLabel.font = UIFont.systemFont(ofSize: 12)
         
@@ -154,7 +158,7 @@ class MoviesMainInfoCell: UITableViewCell {
         movieCountryAndRuntimeLabel.font = UIFont.systemFont(ofSize: 12)
         movieCountryAndRuntimeLabel.textColor = .gray
         
-        movieAdultImageView.contentMode = .scaleAspectFill
+        movieAdultImageView.contentMode = .scaleAspectFit
         movieAdultImageView.clipsToBounds = true
     }
     

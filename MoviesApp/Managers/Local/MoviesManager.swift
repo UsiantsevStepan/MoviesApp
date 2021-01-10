@@ -19,6 +19,7 @@ class MoviesManager {
     
     private var lists = [(ListName, [Movie])]()
     private var pageNumber: Int?
+    private var moviesDetails: MoviesDetailsData?
     
     let dataParser = DataParser()
     let networkManager = NetworkManager()
@@ -106,7 +107,6 @@ class MoviesManager {
                 self.saveMovies(listName: movie.0.rawValue, movie.1)
             }
             completion(.success(page))
-            
         }
     }
     
@@ -127,29 +127,29 @@ class MoviesManager {
             }
         }
         
-            group.enter()
-            queue.async {
-                self.getListOfMovies(endpoint: ApiEndpoint.getMovies(page: page ?? 1, path: listName.searchPath), listName: listName.rawValue) { [weak self] result in
-                    guard let self = self else { return }
-                    switch result {
-                    case let .failure(error):
-                        completion(.failure(error))
-                        group.leave()
-                    case let .success(data):
-                        self.lists.append((listName, data.0))
-                        if data.0.isEmpty {
-                            self.pageNumber = nil
-                        } else {
-                            self.pageNumber = page
-                        }
-                        // MARK: - Deleting previous data
-                        if page == 1 {
-                            self.deletePreviousData(for: listName.rawValue)
-                        }
-                        group.leave()
+        group.enter()
+        queue.async {
+            self.getListOfMovies(endpoint: ApiEndpoint.getMovies(page: page ?? 1, path: listName.searchPath), listName: listName.rawValue) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case let .success(data):
+                    self.lists.append((listName, data.0))
+                    if data.0.isEmpty {
+                        self.pageNumber = nil
+                    } else {
+                        self.pageNumber = page
                     }
+                    // MARK: - Deleting previous data
+                    if page == 1 {
+                        self.deletePreviousData(for: listName.rawValue)
+                    }
+                    group.leave()
                 }
             }
+        }
         
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
@@ -165,19 +165,37 @@ class MoviesManager {
     
     public func getMoviesDetails(movieId: Int?, completion: @escaping ((Result<MoviesDetailsData,Error>) -> Void)) {
         guard let movieId = movieId else { return }
-        networkManager.getData(with: ApiEndpoint.getMovieDetails(movieId: movieId)) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case let .failure(error):
-                completion(.failure(error))
-            case let .success(data):
-                guard let moviesDetailsData = self.dataParser.parse(withData: data, to: MoviesDetailsData.self) else {
-                    completion(.failure(MoviesManagerError.parseError))
-                    return
+        
+        let group = DispatchGroup()
+        let queue = DispatchQueue.global(qos: .background)
+        
+        group.enter()
+        queue.async {
+            self.networkManager.getData(with: ApiEndpoint.getMovieDetails(movieId: movieId)) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case let .success(data):
+                    guard let moviesDetailsData = self.dataParser.parse(withData: data, to: MoviesDetailsData.self) else {
+                        completion(.failure(MoviesManagerError.parseError))
+                        return
+                    }
+                    self.moviesDetails = moviesDetailsData
+                    group.leave()
                 }
-                    self.saveDetails(movieId: movieId, details: moviesDetailsData)
-                completion(.success(moviesDetailsData))
             }
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            guard let moviesDetails = self.moviesDetails else {
+                completion(.failure(MoviesManagerError.parseError))
+                return
+            }
+            self.saveDetails(movieId: movieId, details: moviesDetails)
+            completion(.success(moviesDetails))
         }
     }
     
@@ -199,7 +217,6 @@ class MoviesManager {
     }
     
     private func saveDetails(movieId: Int?, details: MoviesDetailsData) {
-        
         guard let movieId = movieId else { return }
         let movie = fetchMovieById(movieId: movieId)
         movie?.adult = details.adult

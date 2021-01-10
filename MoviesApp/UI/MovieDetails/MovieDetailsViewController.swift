@@ -11,6 +11,7 @@ class MovieDetailsViewController: UIViewController {
     
     private let tableView = UITableView()
     private let moviesManager = MoviesManager()
+    private var refreshControl = UIRefreshControl()
     
     var movieId: Int?
     var movieTitle: String?
@@ -27,9 +28,29 @@ class MovieDetailsViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
         
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+        
+        addSubviews()
+        setConstraints()
+        configureSubviews()
+        
+        refreshControl.beginRefreshing()
+        loadDetails()
+    }
+    
+    @objc private func refresh(sender: UIRefreshControl) {
+        loadDetails()
+    }
+    
+    private func loadDetails() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         moviesManager.getMoviesDetails(movieId: movieId) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.refreshControl.endRefreshing()
                 switch result {
                 case let .failure(error):
                     self.showError(error)
@@ -39,10 +60,6 @@ class MovieDetailsViewController: UIViewController {
                 }
             }
         }
-        
-        addSubviews()
-        setConstraints()
-        configureSubviews()
     }
     
     private func addSubviews() {
@@ -64,8 +81,6 @@ class MovieDetailsViewController: UIViewController {
         tableView.register(MoviesRatingCell.self, forCellReuseIdentifier: MoviesRatingCell.reuseId)
         tableView.register(MoviesBudgetAndRevenueCell.self, forCellReuseIdentifier: MoviesBudgetAndRevenueCell.reuseId)
     }
-    
-    
 }
 
 extension MovieDetailsViewController: UITableViewDelegate {
