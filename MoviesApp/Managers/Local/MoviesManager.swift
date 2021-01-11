@@ -251,6 +251,7 @@ class MoviesManager {
         for movie in movies {
             let newMovie = MoviePreview(context: self.context)
             
+            newMovie.popularity = movie.popularity
             newMovie.title = movie.title
             newMovie.genreId = Int64(movie.genreIds.first ?? 0)
             matchGenres(newMovie)
@@ -297,7 +298,7 @@ class MoviesManager {
             
             let moviesList = try context.fetch(request)
             let moviesSet = moviesList.first?.movies?.allObjects as? [MoviePreview] ?? []
-            let sortedMovies = moviesSet.sorted { $0.title ?? "" < $1.title ?? "" }
+            let sortedMovies = moviesSet.sorted { $0.popularity > $1.popularity }
             return sortedMovies
         }
         catch {
