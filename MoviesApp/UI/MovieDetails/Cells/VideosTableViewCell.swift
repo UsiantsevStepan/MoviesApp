@@ -12,7 +12,7 @@ class VideosTableViewCell: UITableViewCell {
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
     
-    private var videoTypes: [String] = []
+    private var videos = [VideoCellModel]()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,17 +33,11 @@ class VideosTableViewCell: UITableViewCell {
         super.prepareForReuse()
     }
     
-    func configure(with videoTypes: [String]) {
-        self.videoTypes = videoTypes
+    func configure(with videos: [VideoCellModel]) {
+        self.videos = videos
         
         collectionView.reloadData()
     }
-    
-//    func configure(with rating: Double?) {
-//        guard let rating = rating else { return }
-//        ratingLabel.text = "\(rating)"
-//        starsView.rating = rating
-//    }
     
     private func addSubviews() {
         self.addSubview(collectionView)
@@ -76,12 +70,12 @@ extension VideosTableViewCell: UICollectionViewDelegate {
 
 extension VideosTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videoTypes.count
+        return videos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.cellId, for: indexPath) as! VideoCollectionViewCell
-        cell.configure(with: videoTypes[indexPath.row])
+        cell.configure(with: videos[indexPath.row].key, type: videos[indexPath.row].type)
         
         return cell
     }
@@ -97,8 +91,4 @@ extension VideosTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        cellDelegate?.showMovieDetails(with: indexPath, movies: movies)
-//    }
 }

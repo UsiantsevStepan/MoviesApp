@@ -9,9 +9,6 @@ import UIKit
 
 class MovieDetailsViewController: UIViewController {
     
-    // Temporary
-    let videoTypes = ["Trailer", "Featurette", "Behind the Scenes"]
-    
     private let tableView = UITableView()
     private let moviesManager = MoviesManager()
     private var refreshControl = UIRefreshControl()
@@ -22,6 +19,9 @@ class MovieDetailsViewController: UIViewController {
     var movieRating: Double?
     var movie: MovieDetailsModel? {
         self.moviesManager.getMovieDetails(movieId: movieId)
+    }
+    var videos: [VideoCellModel]? {
+        self.moviesManager.getVideoDetails(movieId: movieId)
     }
     
     override func viewDidLoad() {
@@ -115,7 +115,11 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 return 0
             }
         case 4:
-            return 1
+            if (videos ?? []).isEmpty || videos == nil {
+                return 0
+            } else {
+                return 1
+            }
         default:
             return 1
         }
@@ -158,7 +162,11 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 return nil
             }
         case 4:
-            return headerView
+            if (videos ?? []).isEmpty || videos == nil {
+                return nil
+            } else {
+                return headerView
+            }
         default:
             fatalError()
         }
@@ -187,7 +195,11 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 return 0
             }
         case 4:
-            return 20
+            if (videos ?? []).isEmpty || videos == nil {
+                return 0
+            } else {
+                return 20
+            }
         default:
             fatalError()
         }
@@ -216,7 +228,11 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 return ""
             }
         case 4:
-            return "Videos"
+            if (videos ?? []).isEmpty || videos == nil {
+                return ""
+            } else {
+                return "Videos"
+            }
         default:
             fatalError()
         }
@@ -267,7 +283,8 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: VideosTableViewCell.reuseId,
                 for: indexPath
             ) as! VideosTableViewCell
-            videosCell.configure(with: videoTypes)
+            guard let videos = videos else { return videosCell }
+            videosCell.configure(with: videos)
             return videosCell
         default:
             fatalError()

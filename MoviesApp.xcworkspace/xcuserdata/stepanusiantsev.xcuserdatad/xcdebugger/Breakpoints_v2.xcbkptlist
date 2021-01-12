@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1B3BB0EA-7150-49A8-93C8-54F0272E69E9"
+            uuid = "112C1E2B-32B1-47C3-9E2C-F0A64BD6C0D8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesApp/UI/MovieDetails/Cells/VideoCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "configure(with:)"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "configureSubviews()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

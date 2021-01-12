@@ -43,12 +43,10 @@ class VideoCollectionViewCell: UICollectionViewCell {
         return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
     }
     
-//    func configure(with movieModel: MoviePreviewCellModel) {
-//
-//    }
-    
-    func configure(with name: String) {
-        videoTypeLabel.text = name
+    func configure(with key: String, type: String) {
+        playerView.load(withVideoId: key)
+        
+        videoTypeLabel.text = type
         videoTypeLabel.numberOfLines = min(countLabelLines(label: videoTypeLabel), 2)
         
     }
@@ -72,14 +70,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureSubviews() {
-        playerView.load(withVideoId: "70gKWkz5nXs")
+        playerView.layer.masksToBounds = true
+        playerView.layer.cornerRadius = 8
         
         videoTypeLabel.textAlignment = .center
-        videoTypeLabel.font = UIFont.systemFont(ofSize: 16)
-        
-        //Temporary
-        
-
+        videoTypeLabel.font = UIFont.boldSystemFont(ofSize: 16)
     }
     
     // MARK: - Counting lines of specific UILabel

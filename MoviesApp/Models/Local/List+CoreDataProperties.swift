@@ -2,7 +2,7 @@
 //  List+CoreDataProperties.swift
 //  MoviesApp
 //
-//  Created by Степан Усьянцев on 19.12.2020.
+//  Created by Степан Усьянцев on 12.01.2021.
 //
 //
 

@@ -20,6 +20,7 @@ class MoviesManager {
     private var lists = [(ListName, [Movie])]()
     private var pageNumber: Int?
     private var moviesDetails: MoviesDetailsData?
+    private var videos = [VideoData?]()
     
     let dataParser = DataParser()
     let networkManager = NetworkManager()
@@ -57,6 +58,12 @@ class MoviesManager {
         guard let movieId = movieId else { return nil }
         guard let fetchedMovie = fetchMovieById(movieId: movieId) else { return nil }
         return createMovieDetailsModel(from: fetchedMovie)
+    }
+    
+    func getVideoDetails(movieId: Int?) -> [VideoCellModel]? {
+        guard let movieId = movieId else { return nil }
+        let fetchVideos = fetchVideo(by: movieId)
+        return createVideoCellModel(from: fetchVideos)
     }
     
     public func loadMovies(page: Int? = nil, _ completion: @escaping ((Result<(Int?),Error>) -> Void)) {
@@ -201,6 +208,8 @@ class MoviesManager {
                         completion(.failure(MoviesManagerError.parseError))
                         return
                     }
+                    self.videos = videosData.results
+                    group.leave()
                 }
             }
         }
@@ -211,7 +220,7 @@ class MoviesManager {
                 completion(.failure(MoviesManagerError.parseError))
                 return
             }
-            self.saveDetails(movieId: movieId, details: moviesDetails)
+            self.saveDetails(movieId: movieId, details: moviesDetails, videos: self.videos)
             completion(.success(moviesDetails))
         }
     }
@@ -233,7 +242,7 @@ class MoviesManager {
         }
     }
     
-    private func saveDetails(movieId: Int?, details: MoviesDetailsData) {
+    private func saveDetails(movieId: Int?, details: MoviesDetailsData, videos: [VideoData?]) {
         guard let movieId = movieId else { return }
         let movie = fetchMovieById(movieId: movieId)
         movie?.adult = details.adult
@@ -248,6 +257,18 @@ class MoviesManager {
         movie?.overview = details.overview
         movie?.budget = Int64(details.budget)
         movie?.revenue = Int64(details.revenue)
+        
+        // MARK: - Saving videos to DB
+        for video in videos {
+            let newVideo = Video(context: self.context)
+            
+            guard video?.site == "YouTube" else { return }
+            newVideo.key = video?.key
+            newVideo.site = video?.site
+            newVideo.type = video?.type
+            
+            movie?.addToVideos(newVideo)
+        }
         
         //MARK: - Saving data
         do {
@@ -299,9 +320,22 @@ class MoviesManager {
             let moviesSet = try context.fetch(request)
             guard let movie = moviesSet.first else { return nil }
             return movie
-        }
-        catch {
+        } catch {
             return nil
+        }
+    }
+    
+    private func fetchVideo(by movieId: Int) -> [Video] {
+        do {
+            let request = MoviePreview.fetchRequest() as NSFetchRequest<MoviePreview>
+            let predicate = NSPredicate(format: "movieId = %@", NSNumber(value: movieId))
+            request.predicate = predicate
+            
+            let moviesSet = try context.fetch(request)
+            let videos = moviesSet.first?.videos?.allObjects as? [Video] ?? []
+            return videos
+        } catch {
+            return []
         }
     }
     
@@ -323,7 +357,8 @@ class MoviesManager {
         }
     }
     
-    //MARK: - Сreating cell model from CoreData Model
+    //MARK: - Сreating cell models from CoreData Models
+    
     private func createMoviePreviewCellModel(from moviesData: [MoviePreview]) -> [MoviePreviewCellModel] {
         return moviesData.map { movie -> MoviePreviewCellModel in
             
@@ -349,6 +384,16 @@ class MoviesManager {
             budget: Int(moviesData.budget),
             revenue: Int(moviesData.revenue)
         )
+    }
+    
+    private func createVideoCellModel(from videoData: [Video]) -> [VideoCellModel] {
+        return videoData.map { video -> VideoCellModel in
+            return VideoCellModel(
+                key: video.key ?? "",
+                site: video.site ?? "",
+                type: video.type ?? ""
+            )
+        }
     }
     
     private func matchGenres(_ movie: MoviePreview) {

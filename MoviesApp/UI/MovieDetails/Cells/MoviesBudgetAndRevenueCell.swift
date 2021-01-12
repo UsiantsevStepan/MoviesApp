@@ -73,6 +73,8 @@ class MoviesBudgetAndRevenueCell: UITableViewCell {
     }
     
     private func configureSubviews() {
+        movieBudgetLabel.numberOfLines = 0
+        movieRevenueLabel.numberOfLines = 0
         movieBudgetLabel.font = UIFont.systemFont(ofSize: 16)
         movieRevenueLabel.font = UIFont.systemFont(ofSize: 16)
     }

@@ -26,14 +26,27 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="List" inverseName="movies" inverseEntity="List"/>
+        <relationship name="videos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Video" inverseName="movie" inverseEntity="Video"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="title"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="Video" representedClassName="Video" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String"/>
+        <attribute name="site" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="movie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MoviePreview" inverseName="videos" inverseEntity="MoviePreview"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="key"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <elements>
         <element name="List" positionX="-54" positionY="27" width="128" height="59"/>
-        <element name="MoviePreview" positionX="-54" positionY="-9" width="128" height="269"/>
+        <element name="MoviePreview" positionX="-54" positionY="-9" width="128" height="284"/>
+        <element name="Video" positionX="-45" positionY="117" width="128" height="89"/>
     </elements>
 </model>
