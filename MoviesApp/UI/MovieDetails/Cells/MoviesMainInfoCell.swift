@@ -94,7 +94,10 @@ class MoviesMainInfoCell: UITableViewCell {
             movieAdultImageView.isHidden = true
         }
         
-        guard let posterPath = posterPath else { return }
+        guard let posterPath = posterPath else {
+            moviePosterImage.image = #imageLiteral(resourceName: "Poster")
+            return
+        }
         let posterUrl = URL(string: "https://image.tmdb.org/t/p/w300" + posterPath)
         moviePosterImage.kf.setImage(with: posterUrl, placeholder: #imageLiteral(resourceName: "Poster"))
     }
@@ -121,7 +124,7 @@ class MoviesMainInfoCell: UITableViewCell {
         
         genreStackView.translatesAutoresizingMaskIntoConstraints = false
         genreStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 24).isActive = true
-//        genreStackView.bottomAnchor.constraint(greaterThanOrEqualTo: self.bottomAnchor, constant: -8).isActive = true
+        genreStackView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -8).isActive = true
         genreStackView.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
         genreStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
 

@@ -31,8 +31,6 @@ class MoviesRatingCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        
     }
     
     func configure(with rating: Double?) {

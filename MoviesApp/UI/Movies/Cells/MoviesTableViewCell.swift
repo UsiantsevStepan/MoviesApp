@@ -97,6 +97,7 @@ class MoviesTableViewCell: UITableViewCell {
         headerButton.setTitle("All", for: .normal)
         headerButton.setTitleColor(.orange, for: .normal)
         headerButton.clipsToBounds = true
+        headerButton.addTarget(self, action: #selector(showFullList(_:)), for: .touchUpInside)
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
         layout.scrollDirection = .horizontal
@@ -106,7 +107,6 @@ class MoviesTableViewCell: UITableViewCell {
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
-        headerButton.addTarget(self, action: #selector(showFullList(_:)), for: .touchUpInside)
     }
     
     func configureList(with name: ListName, movies: [MoviePreviewCellModel]) {

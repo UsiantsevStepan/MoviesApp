@@ -188,6 +188,23 @@ class MoviesManager {
             }
         }
         
+        group.enter()
+        queue.async {
+            self.networkManager.getData(with: ApiEndpoint.getVideos(movieId: movieId)) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case let .success(data):
+                    guard let videosData = self.dataParser.parse(withData: data, to: VideosData.self) else {
+                        completion(.failure(MoviesManagerError.parseError))
+                        return
+                    }
+                }
+            }
+        }
+        
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             guard let moviesDetails = self.moviesDetails else {

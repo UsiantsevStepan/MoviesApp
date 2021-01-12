@@ -8,5 +8,6 @@ target 'MoviesApp' do
   # Pods for MoviesApp
   pod "Kingfisher", "~> 5.0" 
   pod 'Cosmos', '~> 23.0'
+  pod "youtube-ios-player-helper", "~> 1.0.2"
 
 end

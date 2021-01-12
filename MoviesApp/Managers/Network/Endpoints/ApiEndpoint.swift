@@ -11,6 +11,7 @@ public enum ApiEndpoint {
     case getGenres
     case getMovies(page: Int, path: String)
     case getMovieDetails(movieId: Int)
+    case getVideos(movieId: Int)
 }
 
 extension ApiEndpoint: EndpointProtocol {
@@ -26,6 +27,8 @@ extension ApiEndpoint: EndpointProtocol {
             return baseURL + "/movie/" + path
         case let .getMovieDetails(movieId):
             return baseURL + "/movie/" + "\(movieId)"
+        case let .getVideos(movieId):
+            return baseURL + "/movie/" + "\(movieId)/" + "videos"
         }
     }
     
@@ -38,6 +41,8 @@ extension ApiEndpoint: EndpointProtocol {
             queryParams.updateValue("\(page)", forKey: "page")
             return queryParams
         case .getMovieDetails:
+            return queryParams
+        case .getVideos:
             return queryParams
         }
     }

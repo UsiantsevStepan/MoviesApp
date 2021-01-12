@@ -9,6 +9,9 @@ import UIKit
 
 class MovieDetailsViewController: UIViewController {
     
+    // Temporary
+    let videoTypes = ["Trailer", "Featurette", "Behind the Scenes"]
+    
     private let tableView = UITableView()
     private let moviesManager = MoviesManager()
     private var refreshControl = UIRefreshControl()
@@ -80,6 +83,7 @@ class MovieDetailsViewController: UIViewController {
         tableView.register(MoviesOverviewCell.self, forCellReuseIdentifier: MoviesOverviewCell.reuseId)
         tableView.register(MoviesRatingCell.self, forCellReuseIdentifier: MoviesRatingCell.reuseId)
         tableView.register(MoviesBudgetAndRevenueCell.self, forCellReuseIdentifier: MoviesBudgetAndRevenueCell.reuseId)
+        tableView.register(VideosTableViewCell.self, forCellReuseIdentifier: VideosTableViewCell.reuseId)
     }
 }
 
@@ -110,13 +114,15 @@ extension MovieDetailsViewController: UITableViewDataSource {
             } else {
                 return 0
             }
+        case 4:
+            return 1
         default:
             return 1
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -151,6 +157,8 @@ extension MovieDetailsViewController: UITableViewDataSource {
             } else {
                 return nil
             }
+        case 4:
+            return headerView
         default:
             fatalError()
         }
@@ -178,6 +186,8 @@ extension MovieDetailsViewController: UITableViewDataSource {
             } else {
                 return 0
             }
+        case 4:
+            return 20
         default:
             fatalError()
         }
@@ -205,6 +215,8 @@ extension MovieDetailsViewController: UITableViewDataSource {
             } else {
                 return ""
             }
+        case 4:
+            return "Videos"
         default:
             fatalError()
         }
@@ -250,6 +262,13 @@ extension MovieDetailsViewController: UITableViewDataSource {
             ) as! MoviesBudgetAndRevenueCell
             moviesBudgetAndRevenueCell.configure(budget: movie?.budget, revenue: movie?.revenue)
             return moviesBudgetAndRevenueCell
+        case 4:
+            let videosCell = tableView.dequeueReusableCell(
+                withIdentifier: VideosTableViewCell.reuseId,
+                for: indexPath
+            ) as! VideosTableViewCell
+            videosCell.configure(with: videoTypes)
+            return videosCell
         default:
             fatalError()
         }
