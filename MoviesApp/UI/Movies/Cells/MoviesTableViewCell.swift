@@ -10,6 +10,7 @@ import UIKit
 protocol MoviesTableViewCellDelegate: class {
     func showFullList(with name: ListName)
     func showMovieDetails(with indexPath: IndexPath, movies: [MoviePreviewCellModel])
+    func showPreview(for movie: MoviePreviewCellModel) -> UIViewController?
 }
 
 class MoviesTableViewCell: UITableViewCell {
@@ -137,6 +138,15 @@ extension MoviesTableViewCell: UICollectionViewDataSource {
 }
 
 extension MoviesTableViewCell: UICollectionViewDelegate {
+    @available(iOS 13.0, *)
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: { [weak self] () -> UIViewController? in
+            guard let self = self else { return nil }
+            let movie = self.movies[indexPath.item]
+            
+            return self.cellDelegate?.showPreview(for: movie)
+        }, actionProvider: nil)
+    }
 }
 
 extension MoviesTableViewCell: UICollectionViewDelegateFlowLayout {

@@ -50,7 +50,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     
     func configure(with movieModel: MoviePreviewCellModel) {
         movieGenreLabel.text = movieModel.genreName
-
+        
         movieTitleLabel.text = movieModel.title
         movieTitleLabel.numberOfLines = min(countLabelLines(label: movieTitleLabel), 2)
         movieTitleLabel.lineBreakMode = .byWordWrapping

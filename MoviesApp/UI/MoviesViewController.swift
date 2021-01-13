@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 class MoviesViewController: UITableViewController {
     
@@ -38,7 +37,7 @@ class MoviesViewController: UITableViewController {
     @objc private func refresh(sender: UIRefreshControl) {
         loadData()
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
     }
@@ -89,5 +88,16 @@ extension MoviesViewController: MoviesTableViewCellDelegate {
         controller.movieTitle = movie.title
         controller.movieRating = movie.voteAverage
         controller.moviePosterPath = movie.posterPath
+    }
+    
+    func showPreview(for movie: MoviePreviewCellModel) -> UIViewController? {
+        let detailsController = MovieDetailsViewController()
+        
+        detailsController.movieId = movie.movieId
+        detailsController.movieTitle = movie.title
+        detailsController.movieRating = movie.voteAverage
+        detailsController.moviePosterPath = movie.posterPath
+        
+        return detailsController
     }
 }

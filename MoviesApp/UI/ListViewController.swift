@@ -18,9 +18,6 @@ class ListViewController: UIViewController {
     var isLoading = false
     var listName: ListName?
     var movies: [MoviePreviewCellModel] {
-        // MARK: - Check the listName
-        //        print("Tapped on " + (listName?.rawValue ?? "NOT"))
-        
         guard let listName = listName else { return [] }
         let movies = self.moviesManager.getCategories(listName: listName)
         return movies.1
@@ -120,6 +117,21 @@ extension ListViewController: UICollectionViewDataSource {
 }
 
 extension ListViewController: UICollectionViewDelegate {
+    @available(iOS 13.0, *)
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: { [weak self] () -> UIViewController? in
+            guard let self = self else { return nil }
+            let movie = self.movies[indexPath.item]
+            
+            let detailsViewController = MovieDetailsViewController()
+            detailsViewController.movieId = movie.movieId
+            detailsViewController.moviePosterPath = movie.posterPath
+            detailsViewController.movieTitle = movie.title
+            detailsViewController.movieRating = movie.voteAverage
+            
+            return detailsViewController
+        }, actionProvider: nil)
+    }
 }
 
 extension ListViewController: UICollectionViewDelegateFlowLayout {

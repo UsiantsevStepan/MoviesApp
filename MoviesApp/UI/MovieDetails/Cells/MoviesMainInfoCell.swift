@@ -72,7 +72,7 @@ class MoviesMainInfoCell: UITableViewCell {
         } else {
             movieGenresLabel.isHidden = true
         }
-       
+        
         var countryAndRuntimeInfo: [String] = []
         
         if let countryName = country, !countryName.isEmpty {
@@ -127,7 +127,7 @@ class MoviesMainInfoCell: UITableViewCell {
         genreStackView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -8).isActive = true
         genreStackView.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 16).isActive = true
         genreStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
-
+        
         movieAdultImageView.translatesAutoresizingMaskIntoConstraints = false
         movieAdultImageView.leadingAnchor.constraint(equalTo: genreStackView.leadingAnchor).isActive = true
         movieAdultImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
@@ -168,7 +168,8 @@ class MoviesMainInfoCell: UITableViewCell {
     // MARK: - Counting lines of specific UILabel
     private func countLabelLines(label: UILabel) -> Int {
         self.layoutIfNeeded()
-        let labelText = label.text! as NSString
+        guard let text = label.text else { return 0 }
+        let labelText = text as NSString
         
         let rect = CGSize(width: label.bounds.width, height: CGFloat.greatestFiniteMagnitude)
         let labelSize = labelText.boundingRect(with: rect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : label.font!], context: nil)
