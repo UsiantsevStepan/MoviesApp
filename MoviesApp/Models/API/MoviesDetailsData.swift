@@ -17,6 +17,9 @@ struct MoviesDetailsData: Decodable {
     let overview: String?
     let budget: Int
     let revenue: Int
+    let title: String
+    let voteAverage: Double
+    let posterPath: String?
     
     enum CodingKeys: String, CodingKey {
         case adult
@@ -28,6 +31,9 @@ struct MoviesDetailsData: Decodable {
         case overview
         case budget
         case revenue
+        case title
+        case voteAverage = "vote_average"
+        case posterPath = "poster_path"
     }
 }
 

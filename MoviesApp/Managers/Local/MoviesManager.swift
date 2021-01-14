@@ -21,6 +21,8 @@ class MoviesManager {
     private var pageNumber: Int?
     private var moviesDetails: MoviesDetailsData?
     private var videos = [VideoData?]()
+    private var searchData = [SuitableMovie]()
+    private var searchingTotalPages = 0
     
     let dataParser = DataParser()
     let networkManager = NetworkManager()
@@ -30,7 +32,6 @@ class MoviesManager {
     //MARK: - Reference to managed object context
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let persistentStoreCoordinator = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreCoordinator
-    
     
     func getGenres(_ completion: @escaping ((Result<[Genre],Error>)) -> Void) {
         networkManager.getData(with: ApiEndpoint.getGenres) { [weak self] result in
@@ -64,6 +65,53 @@ class MoviesManager {
         guard let movieId = movieId else { return nil }
         let fetchVideos = fetchVideo(by: movieId)
         return createVideoCellModel(from: fetchVideos)
+    }
+    
+    public func loadSearchdMovies(with searchText: String, page: Int, completion: @escaping ((Result<(Int,[MoviePreviewCellModel]),Error>)) -> Void) {
+        let group = DispatchGroup()
+        let queue = DispatchQueue.global(qos: .background)
+        
+        group.enter()
+        queue.async {
+            self.getGenres() { result in
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case .success:
+                    group.leave()
+                }
+            }
+        }
+        
+        group.enter()
+        queue.async {
+            self.networkManager.getData(with: ApiEndpoint.searchMovie(text: searchText, page: page)) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .failure(error):
+                    completion(.failure(error))
+                    group.leave()
+                case let .success(data):
+                    guard let searchData = self.dataParser.parse(withData: data, to: SearchData.self) else {
+                        completion(.failure(MoviesManagerError.parseError))
+                        return
+                    }
+                    self.searchData = searchData.results
+                    guard let totalPages = searchData.totalPages else {
+                        completion(.failure(MoviesManagerError.parseError))
+                        return
+                    }
+                    self.searchingTotalPages = totalPages
+                    group.leave()
+                }
+            }
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            completion(.success((self.searchingTotalPages, self.createSearchedMoviePreviewCellModel(from: self.searchData))))
+        }
     }
     
     public func loadMovies(page: Int? = nil, _ completion: @escaping ((Result<(Int?),Error>) -> Void)) {
@@ -292,7 +340,7 @@ class MoviesManager {
             newMovie.popularity = movie.popularity
             newMovie.title = movie.title
             newMovie.genreId = Int64(movie.genreIds.first ?? 0)
-            matchGenres(newMovie)
+            matchGenresForStoredMovie(newMovie)
             newMovie.posterPath = movie.posterPath
             let mainGenreName = (genreName ?? "") as NSString
             newMovie.genreName.append(mainGenreName)
@@ -372,6 +420,18 @@ class MoviesManager {
         }
     }
     
+    private func createSearchedMoviePreviewCellModel(from moviesData: [SuitableMovie]) -> [MoviePreviewCellModel] {
+        return moviesData.map { movie -> MoviePreviewCellModel in
+            return MoviePreviewCellModel(
+                title: movie.title,
+                voteAverage: movie.voteAverage,
+                genreName: matchGenresForSearchedMovies(movie),
+                posterPath: movie.posterPath,
+                movieId: movie.id
+            )
+        }
+    }
+    
     private func createMovieDetailsModel(from moviesData: MoviePreview) -> MovieDetailsModel {
         return MovieDetailsModel(
             adult: moviesData.adult,
@@ -396,13 +456,21 @@ class MoviesManager {
         }
     }
     
-    private func matchGenres(_ movie: MoviePreview) {
+    private func matchGenresForStoredMovie(_ movie: MoviePreview) {
         let filteredArray = genres.filter { $0.id == movie.genreId }
         filteredArray.forEach { genre in
             genreName = genre.name
         }
     }
     
+    private func matchGenresForSearchedMovies(_ movie: SuitableMovie) -> String {
+        let filteredArray = genres.filter { $0.id == movie.genreIds.first }
+        var name = ""
+        filteredArray.forEach { genre in
+            name = genre.name
+        }
+        return name
+    }
     
     private func deletePreviousData(for listName: String) {
         
