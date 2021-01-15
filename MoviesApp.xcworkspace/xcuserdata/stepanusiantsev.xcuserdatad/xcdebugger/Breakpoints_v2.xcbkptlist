@@ -7,160 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E50256F7-FB28-4205-922C-2092F3C271A9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "loadSearchdMovies(with:page:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2C11A83E-809B-4B05-A961-CEDB8384393F"
+            uuid = "08E47C01-AE00-4179-ACD8-40BF29E773ED"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            filePath = "MoviesApp/UI/Movies/Cells/FooterCollectionReusableView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "loadSearchdMovies(with:page:completion:)"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "configure(isLoading:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2C11A83E-809B-4B05-A961-CEDB8384393F - 7204c8da8323367f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MoviesApp.MoviesManager.loadSearchdMovies(with: Swift.String, page: Swift.Int, completion: (Swift.Result&lt;(Swift.Int, Swift.Array&lt;MoviesApp.MoviePreviewCellModel&gt;), Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "98"
-                  endingLineNumber = "98"
-                  offsetFromSymbolStart = "1074">
-               </Location>
-               <Location
-                  uuid = "2C11A83E-809B-4B05-A961-CEDB8384393F - ef9087042f80468b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in MoviesApp.MoviesManager.loadSearchdMovies(with: Swift.String, page: Swift.Int, completion: (Swift.Result&lt;(Swift.Int, Swift.Array&lt;MoviesApp.MoviePreviewCellModel&gt;), Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "MoviesApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanusiantsev/Documents/xcode/MoviesApp/MoviesApp/Managers/Local/MoviesManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "98"
-                  endingLineNumber = "98"
-                  offsetFromSymbolStart = "129">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F9CD929E-543C-4EA2-99A0-E76989521943"
+            uuid = "26C33417-19DA-46AD-85F3-8721ACCC645B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            filePath = "MoviesApp/UI/Search/SearchViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
-            landmarkName = "loadSearchdMovies(with:page:completion:)"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7C758CE5-661A-4E43-A679-148A56B4765B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "loadSearchdMovies(with:page:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "48142048-7E66-4212-A0DF-148FC5D3CECF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Network/NetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "performRequest(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9E46E60C-8BE9-4DB8-8B1E-A33977D4F692"
+            uuid = "ECDF18ED-9845-4247-8020-ECB860F0F70C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
+            filePath = "MoviesApp/UI/Search/SearchViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
-            landmarkName = "matchGenresForSearchedMovies(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5F654AEC-1A9F-440B-92AF-294F004A1701"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "428"
-            endingLineNumber = "428"
-            landmarkName = "createSearchedMoviePreviewCellModel(from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "59828039-448B-4441-9C65-6620401A86C4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesApp/Managers/Local/MoviesManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "467"
-            endingLineNumber = "467"
-            landmarkName = "matchGenresForSearchedMovies(_:)"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

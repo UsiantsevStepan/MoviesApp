@@ -13,4 +13,5 @@ struct MoviePreviewCellModel {
     let genreName: String?
     let posterPath: String?
     let movieId: Int?
+    let popularity: Double?
 }

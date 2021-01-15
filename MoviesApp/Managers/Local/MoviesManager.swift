@@ -292,38 +292,79 @@ class MoviesManager {
     
     private func saveDetails(movieId: Int?, details: MoviesDetailsData, videos: [VideoData?]) {
         guard let movieId = movieId else { return }
-        let movie = fetchMovieById(movieId: movieId)
-        movie?.adult = details.adult
-        let genres = Array(details.genres.map {$0.name as NSString})
-        movie?.genreName = genres
-        movie?.originalTitle = details.originalTitle
-        movie?.country = details.countries.first?.name
-        movie?.releaseDate = details.releaseDate
-        if let movieRuntime = details.runtime {
-            movie?.runtime = Int64(movieRuntime)
-        }
-        movie?.overview = details.overview
-        movie?.budget = Int64(details.budget)
-        movie?.revenue = Int64(details.revenue)
         
-        // MARK: - Saving videos to DB
-        for video in videos {
-            let newVideo = Video(context: self.context)
+        if let movie = fetchMovieById(movieId: movieId) {
+            movie.adult = details.adult
+            let genres = Array(details.genres.map {$0.name as NSString})
+            movie.genreName = genres
+            movie.originalTitle = details.originalTitle
+            movie.country = details.countries.first?.name
+            movie.releaseDate = details.releaseDate
+            if let movieRuntime = details.runtime {
+                movie.runtime = Int64(movieRuntime)
+            }
+            movie.overview = details.overview
+            movie.budget = Int64(details.budget)
+            movie.revenue = Int64(details.revenue)
             
-            guard video?.site == "YouTube" else { return }
-            newVideo.key = video?.key
-            newVideo.site = video?.site
-            newVideo.type = video?.type
+            // MARK: - Saving videos to DB
+            for video in videos {
+                let newVideo = Video(context: self.context)
+                
+                guard video?.site == "YouTube" else { return }
+                newVideo.key = video?.key
+                newVideo.site = video?.site
+                newVideo.type = video?.type
+                
+                movie.addToVideos(newVideo)
+            }
             
-            movie?.addToVideos(newVideo)
+            //MARK: - Saving data
+            do {
+                try context.save()
+            }
+            catch let error as NSError {
+                print(error, error.localizedDescription)
+            }
         }
-        
-        //MARK: - Saving data
-        do {
-            try context.save()
-        }
-        catch let error as NSError {
-            print(error, error.localizedDescription)
+        else {
+            let newMovie = MoviePreview(context: context)
+            newMovie.title = details.title
+            newMovie.movieId = Int64(movieId)
+            newMovie.voteAverage = details.voteAverage
+            newMovie.posterPath = details.posterPath
+            newMovie.adult = details.adult
+            let genres = Array(details.genres.map {$0.name as NSString})
+            newMovie.genreName = genres
+            newMovie.originalTitle = details.originalTitle
+            newMovie.country = details.countries.first?.name
+            newMovie.releaseDate = details.releaseDate
+            if let movieRuntime = details.runtime {
+                newMovie.runtime = Int64(movieRuntime)
+            }
+            newMovie.overview = details.overview
+            newMovie.budget = Int64(details.budget)
+            newMovie.revenue = Int64(details.revenue)
+            
+            // MARK: - Saving videos to DB
+            for video in videos {
+                let newVideo = Video(context: self.context)
+                
+                guard video?.site == "YouTube" else { return }
+                newVideo.key = video?.key
+                newVideo.site = video?.site
+                newVideo.type = video?.type
+                
+                newMovie.addToVideos(newVideo)
+            }
+            
+            //MARK: - Saving data
+            do {
+                try context.save()
+            }
+            catch let error as NSError {
+                print(error, error.localizedDescription)
+            }
         }
     }
     
@@ -415,7 +456,8 @@ class MoviesManager {
                 voteAverage: movie.voteAverage,
                 genreName: String(movie.genreName.first ?? ""),
                 posterPath: movie.posterPath,
-                movieId: Int(truncatingIfNeeded: movie.movieId)
+                movieId: Int(truncatingIfNeeded: movie.movieId),
+                popularity: movie.popularity
             )
         }
     }
@@ -427,7 +469,8 @@ class MoviesManager {
                 voteAverage: movie.voteAverage,
                 genreName: matchGenresForSearchedMovies(movie),
                 posterPath: movie.posterPath,
-                movieId: movie.id
+                movieId: movie.id,
+                popularity: movie.popularity
             )
         }
     }

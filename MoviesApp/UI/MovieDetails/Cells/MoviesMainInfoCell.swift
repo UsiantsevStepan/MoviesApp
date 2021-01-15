@@ -67,6 +67,7 @@ class MoviesMainInfoCell: UITableViewCell {
         }
         
         if let genresNames = genres {
+            movieGenresLabel.isHidden = false
             let formattedGenres = genresNames.joined(separator: ", ")
             movieGenresLabel.text = formattedGenres
         } else {
@@ -85,10 +86,12 @@ class MoviesMainInfoCell: UITableViewCell {
         if countryAndRuntimeInfo.isEmpty {
             movieOriginalNameAndYearLabel.isHidden = true
         } else {
+            movieOriginalNameAndYearLabel.isHidden = false
             movieCountryAndRuntimeLabel.text = countryAndRuntimeInfo.joined(separator: ", ")
         }
         
         if adult ?? false {
+            movieAdultImageView.isHidden = false
             movieAdultImageView.image = #imageLiteral(resourceName: "Adult")
         } else {
             movieAdultImageView.isHidden = true
