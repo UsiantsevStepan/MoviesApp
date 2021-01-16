@@ -13,7 +13,7 @@ class SearchViewController: UIViewController {
     private var searchController = UISearchController(searchResultsController: nil)
     private var searchText = ""
     private var moviesIds = [Int]()
-    private var movies = [MoviePreviewCellModel?]()
+    private var movies: [MoviePreviewCellModel] = []
     private var totalPages: Int?
     private var currentPage = 1
     private var currentSearchText = ""
@@ -55,10 +55,12 @@ class SearchViewController: UIViewController {
                 case let .success((pages, movies)):
                     self.totalPages = pages
                     self.movies += movies
-                    self.isLoading = false
+                    
+                    if self.currentPage == self.totalPages {
+                        self.isLoading = false
+                    }
                     self.currentPage += 1
                 }
-                
                 self.collectionView.reloadData()
             }
         }
@@ -77,7 +79,7 @@ class SearchViewController: UIViewController {
     }
     
     private func configureSubviews() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 4
         layout.estimatedItemSize = .zero
@@ -110,8 +112,8 @@ extension SearchViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.cellId, for: indexPath) as! MoviesCollectionViewCell
-        let sortedMovies = movies.sorted { ($0?.popularity ?? 1) > ($1?.popularity ?? 0) }
-        guard let movies = sortedMovies[indexPath.row] else { return cell }
+        let sortedMovies = movies.sorted { ($0.popularity ?? 1) > ($1.popularity ?? 0) }
+        let movies = sortedMovies[indexPath.row]
         cell.configure(with: movies)
         
         return cell
@@ -123,8 +125,7 @@ extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: { [weak self] () -> UIViewController? in
             guard let self = self else { return nil }
-            guard let movies = self.movies as? [MoviePreviewCellModel] else { return nil }
-            let sortedMovies = movies.sorted { ($0.popularity ?? 1) > ($1.popularity ?? 0) }
+            let sortedMovies = self.movies.sorted { ($0.popularity ?? 1) > ($1.popularity ?? 0) }
             let movie = sortedMovies[indexPath.item]
 
             let detailsViewController = MovieDetailsViewController()
@@ -188,8 +189,8 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let controller = MovieDetailsViewController()
         navigationController?.pushViewController(controller, animated: true)
-        let sortedMovies = movies.sorted { ($0?.popularity ?? 1) > ($1?.popularity ?? 0) }
-        guard let movie = sortedMovies[indexPath.row] else { return }
+        let sortedMovies = movies.sorted { ($0.popularity ?? 1) > ($1.popularity ?? 0) }
+        let movie = sortedMovies[indexPath.row]
         controller.movieId = movie.movieId
         controller.movieTitle = movie.title
         controller.movieRating = movie.voteAverage
