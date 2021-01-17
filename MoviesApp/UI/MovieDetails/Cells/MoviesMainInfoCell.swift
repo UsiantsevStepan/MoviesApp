@@ -154,6 +154,8 @@ class MoviesMainInfoCell: UITableViewCell {
         
         moviePosterImage.contentMode = .scaleAspectFill
         moviePosterImage.layer.cornerRadius = 8.0
+        moviePosterImage.layer.borderColor = UIColor.black.withAlphaComponent(0.07).cgColor
+        moviePosterImage.layer.borderWidth = 1
         moviePosterImage.clipsToBounds = true
         
         movieOriginalNameAndYearLabel.font = UIFont.systemFont(ofSize: 12)

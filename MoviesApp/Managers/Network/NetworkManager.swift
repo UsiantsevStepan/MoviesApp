@@ -12,7 +12,7 @@ protocol Network {
 }
 
 class NetworkManager {
-//    private let session = URLSession(configuration: .default)
+    //    private let session = URLSession(configuration: .default)
 }
 
 extension NetworkManager: Network {

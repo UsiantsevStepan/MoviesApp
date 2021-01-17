@@ -84,6 +84,7 @@ class MovieDetailsViewController: UIViewController {
         tableView.register(MoviesRatingCell.self, forCellReuseIdentifier: MoviesRatingCell.reuseId)
         tableView.register(MoviesBudgetAndRevenueCell.self, forCellReuseIdentifier: MoviesBudgetAndRevenueCell.reuseId)
         tableView.register(VideosTableViewCell.self, forCellReuseIdentifier: VideosTableViewCell.reuseId)
+        tableView.rowHeight = UITableView.automaticDimension
     }
 }
 
@@ -269,7 +270,7 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: MoviesRatingCell.reuseId,
                 for: indexPath
             ) as! MoviesRatingCell
-            ratingCell.configure(with: movieRating)
+            ratingCell.configure(with: movieRating, tableViewWidth: tableView.frame.width)
             return ratingCell
         case 3:
             let moviesBudgetAndRevenueCell = tableView.dequeueReusableCell(

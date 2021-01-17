@@ -117,6 +117,8 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     private func configureSubviews() {
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.layer.cornerRadius = 8.0
+        posterImageView.layer.borderColor = UIColor.black.withAlphaComponent(0.07).cgColor
+        posterImageView.layer.borderWidth = 1
         posterImageView.clipsToBounds = true
         
         movieRatingLabel.font = UIFont.boldSystemFont(ofSize: 12)

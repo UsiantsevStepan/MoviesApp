@@ -15,7 +15,7 @@ class SearchViewController: UIViewController {
     private var moviesIds = [Int]()
     private var movies: [MoviePreviewCellModel] = []
     private var totalPages: Int?
-    private var currentPage = 1
+    private var currentPage = 0
     private var currentSearchText = ""
     private var isRefreshing = false
     private var isLoading = false
@@ -54,13 +54,26 @@ class SearchViewController: UIViewController {
                     return
                 case let .success((pages, movies)):
                     self.totalPages = pages
-                    self.movies += movies
+                    if movies.isEmpty {
+                        self.showSearchResultsError(text: self.currentSearchText)
+                        self.isLoading = false
+                        self.collectionView.reloadData()
+                    } else {
+                        self.movies += movies
+                    }
                     
                     if self.currentPage == self.totalPages {
                         self.isLoading = false
                     }
-                    self.currentPage += 1
+                    
+                    if !movies.isEmpty {
+                        self.currentPage += 1
+                    } else {
+                        self.currentPage = 0
+                        self.totalPages = 1
+                    }
                 }
+                if self.currentPage == 2 { self.isLoading = true }
                 self.collectionView.reloadData()
             }
         }
@@ -127,7 +140,7 @@ extension SearchViewController: UICollectionViewDelegate {
             guard let self = self else { return nil }
             let sortedMovies = self.movies.sorted { ($0.popularity ?? 1) > ($1.popularity ?? 0) }
             let movie = sortedMovies[indexPath.item]
-
+            
             let detailsViewController = MovieDetailsViewController()
             detailsViewController.movieId = movie.movieId
             detailsViewController.moviePosterPath = movie.posterPath
@@ -174,8 +187,8 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         var size = CGSize()
-
-        if self.isLoading {
+        
+        if (isLoading && movies.count >= 20) || (movies.isEmpty && currentPage != 0) {
             size = CGSize(width: view.frame.size.width, height: 36)
             isLoading = false
             isRefreshing = true
@@ -204,6 +217,7 @@ extension SearchViewController: UISearchBarDelegate {
         if currentSearchText != searchText {
             currentSearchText = searchText
             movies = []
+            collectionView.reloadData()
             currentPage = 1
         }
         loadPage(with: currentSearchText, currentPage)
