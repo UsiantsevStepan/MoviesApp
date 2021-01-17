@@ -13,15 +13,12 @@ class MovieDetailsViewController: UIViewController {
     private let moviesManager = MoviesManager()
     private var refreshControl = UIRefreshControl()
     
-    var movieId: Int?
-    var movieTitle: String?
-    var moviePosterPath: String?
-    var movieRating: Double?
+    var moviePreviewData: MovieDetailsTransferData?
     var movie: MovieDetailsModel? {
-        self.moviesManager.getMovieDetails(movieId: movieId)
+        self.moviesManager.getMovieDetails(movieId: moviePreviewData?.movieId)
     }
     var videos: [VideoCellModel]? {
-        self.moviesManager.getVideoDetails(movieId: movieId)
+        self.moviesManager.getVideoDetails(movieId: moviePreviewData?.movieId)
     }
     
     override func viewDidLoad() {
@@ -49,7 +46,7 @@ class MovieDetailsViewController: UIViewController {
     private func loadDetails() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        moviesManager.getMoviesDetails(movieId: movieId) { [weak self] result in
+        moviesManager.getMoviesDetails(movieId: moviePreviewData?.movieId) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -71,10 +68,10 @@ class MovieDetailsViewController: UIViewController {
     
     private func setConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
     private func configureSubviews() {
@@ -89,47 +86,6 @@ class MovieDetailsViewController: UIViewController {
 }
 
 extension MovieDetailsViewController: UITableViewDelegate {
-    
-}
-
-extension MovieDetailsViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        case 1:
-            if movie?.overview != nil && movie?.overview != "" {
-                return 1
-            } else {
-                return 0
-            }
-        case 2:
-            if movieRating != nil && movieRating != 0 {
-                return 1
-            } else {
-                return 0
-            }
-        case 3:
-            if (movie?.budget != nil && movie?.budget != 0) && (movieRating != nil && movieRating != 0) {
-                return 1
-            } else {
-                return 0
-            }
-        case 4:
-            if (videos ?? []).isEmpty || videos == nil {
-                return 0
-            } else {
-                return 1
-            }
-        default:
-            return 1
-        }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
-    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
@@ -151,13 +107,13 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 return nil
             }
         case 2:
-            if movieRating != nil && movieRating != 0 {
+            if moviePreviewData?.rating != nil && moviePreviewData?.rating != 0 {
                 return headerView
             } else {
                 return nil
             }
         case 3:
-            if (movie?.budget != nil && movie?.budget != 0) && (movieRating != nil && movieRating != 0) {
+            if (movie?.budget != nil && movie?.budget != 0) && (movie?.revenue != nil && movie?.revenue != 0) {
                 return headerView
             } else {
                 return nil
@@ -184,13 +140,13 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 return 0
             }
         case 2:
-            if movieRating != nil && movieRating != 0 {
+            if moviePreviewData?.rating != nil && moviePreviewData?.rating != 0 {
                 return 20
             } else {
                 return 0
             }
         case 3:
-            if (movie?.budget != nil && movie?.budget != 0) && (movieRating != nil && movieRating != 0) {
+            if (movie?.budget != nil && movie?.budget != 0) && (movie?.revenue != nil && movie?.revenue != 0) {
                 return 20
             } else {
                 return 0
@@ -205,6 +161,45 @@ extension MovieDetailsViewController: UITableViewDataSource {
             fatalError()
         }
     }
+}
+
+extension MovieDetailsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            if movie?.overview != nil && movie?.overview != "" {
+                return 1
+            } else {
+                return 0
+            }
+        case 2:
+            if moviePreviewData?.rating != nil && moviePreviewData?.rating != 0 {
+                return 1
+            } else {
+                return 0
+            }
+        case 3:
+            if (movie?.budget != nil && movie?.budget != 0) && (movie?.revenue != nil && movie?.revenue != 0) {
+                return 1
+            } else {
+                return 0
+            }
+        case 4:
+            if (videos ?? []).isEmpty || videos == nil {
+                return 0
+            } else {
+                return 1
+            }
+        default:
+            return 1
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 5
+    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -217,13 +212,13 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 return ""
             }
         case 2:
-            if movieRating != nil && movieRating != 0 {
+            if moviePreviewData?.rating != nil && moviePreviewData?.rating != 0 {
                 return "Rating"
             } else {
                 return ""
             }
         case 3:
-            if (movie?.budget != nil && movie?.budget != 0) && (movieRating != nil && movieRating != 0) {
+            if (movie?.budget != nil && movie?.budget != 0) && (movie?.revenue != nil && movie?.revenue != 0) {
                 return "Budget & Revenue"
             } else {
                 return ""
@@ -248,8 +243,8 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 for: indexPath
             ) as! MoviesMainInfoCell
             moviesMainInfoCell.configure(
-                posterPath: moviePosterPath,
-                title: movieTitle,
+                posterPath: moviePreviewData?.posterPath,
+                title: moviePreviewData?.title,
                 originalName: movie?.originalTitle,
                 year: movie?.releaseDate,
                 genres: movie?.genresNames,
@@ -270,7 +265,7 @@ extension MovieDetailsViewController: UITableViewDataSource {
                 withIdentifier: MoviesRatingCell.reuseId,
                 for: indexPath
             ) as! MoviesRatingCell
-            ratingCell.configure(with: movieRating, tableViewWidth: tableView.frame.width)
+            ratingCell.configure(with: moviePreviewData?.rating, tableViewWidth: tableView.frame.width)
             return ratingCell
         case 3:
             let moviesBudgetAndRevenueCell = tableView.dequeueReusableCell(

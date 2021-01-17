@@ -11,9 +11,7 @@ class SearchViewController: UIViewController {
     private let moviesManager = MoviesManager()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())    
     private var searchController = UISearchController(searchResultsController: nil)
-    private var searchText = ""
-    private var moviesIds = [Int]()
-    private var movies: [MoviePreviewCellModel] = []
+    private var movies = [MoviePreviewCellModel]()
     private var totalPages: Int?
     private var currentPage = 0
     private var currentSearchText = ""
@@ -56,21 +54,16 @@ class SearchViewController: UIViewController {
                     self.totalPages = pages
                     if movies.isEmpty {
                         self.showSearchResultsError(text: self.currentSearchText)
-                        self.isLoading = false
-                        self.collectionView.reloadData()
-                    } else {
-                        self.movies += movies
-                    }
-                    
-                    if self.currentPage == self.totalPages {
-                        self.isLoading = false
-                    }
-                    
-                    if !movies.isEmpty {
-                        self.currentPage += 1
-                    } else {
                         self.currentPage = 0
                         self.totalPages = 1
+                        self.isLoading = false
+                    } else {
+                        self.movies += movies
+                        self.currentPage += 1
+                    }
+                    
+                    if page == self.totalPages {
+                        self.isLoading = false
                     }
                 }
                 if self.currentPage == 2 { self.isLoading = true }
@@ -85,10 +78,10 @@ class SearchViewController: UIViewController {
     
     private func setConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
     }
     
     private func configureSubviews() {
@@ -109,7 +102,6 @@ class SearchViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         
         searchController.searchBar.clipsToBounds = true
@@ -142,10 +134,12 @@ extension SearchViewController: UICollectionViewDelegate {
             let movie = sortedMovies[indexPath.item]
             
             let detailsViewController = MovieDetailsViewController()
-            detailsViewController.movieId = movie.movieId
-            detailsViewController.moviePosterPath = movie.posterPath
-            detailsViewController.movieTitle = movie.title
-            detailsViewController.movieRating = movie.voteAverage
+            detailsViewController.moviePreviewData = MovieDetailsTransferData(
+                posterPath: movie.posterPath,
+                rating: movie.voteAverage,
+                title: movie.title,
+                movieId: movie.movieId
+            )
             
             return detailsViewController
         }, actionProvider: nil)
@@ -167,11 +161,10 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
         let footer = collectionView.dequeueReusableSupplementaryView(
             ofKind: UICollectionView.elementKindSectionFooter,
             withReuseIdentifier: FooterCollectionReusableView.identifier,
@@ -185,18 +178,13 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        
-        var size = CGSize()
-        
-        if (isLoading && movies.count >= 20) || (movies.isEmpty && currentPage != 0) {
-            size = CGSize(width: view.frame.size.width, height: 36)
-            isLoading = false
-            isRefreshing = true
-        } else {
-            size = CGSize(width: 0, height: 0)
+        guard (isLoading && movies.count >= 20) || (movies.isEmpty && currentPage != 0) else {
+            return .zero
         }
         
-        return size
+        isLoading = false
+        isRefreshing = true
+        return CGSize(width: view.frame.size.width, height: 36)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -204,10 +192,12 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
         navigationController?.pushViewController(controller, animated: true)
         let sortedMovies = movies.sorted { ($0.popularity ?? 1) > ($1.popularity ?? 0) }
         let movie = sortedMovies[indexPath.row]
-        controller.movieId = movie.movieId
-        controller.movieTitle = movie.title
-        controller.movieRating = movie.voteAverage
-        controller.moviePosterPath = movie.posterPath
+        controller.moviePreviewData = MovieDetailsTransferData(
+            posterPath: movie.posterPath,
+            rating: movie.voteAverage,
+            title: movie.title,
+            movieId: movie.movieId
+        )
     }
 }
 
@@ -224,8 +214,11 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
-extension SearchViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
+extension SearchViewController {
+    func showSearchResultsError(text: String) {
+        let alert = UIAlertController(title: "No results found", message: "Unfortunately we couln't find a match for '\(text)'. Please try another search.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
+        self.present(alert, animated: true, completion: nil)
     }
 }

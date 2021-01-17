@@ -11,9 +11,7 @@ protocol Network {
     func getData(with endpoint: EndpointProtocol, completion: @escaping ((Result<Data,Error>) -> Void))
 }
 
-class NetworkManager {
-    //    private let session = URLSession(configuration: .default)
-}
+class NetworkManager {}
 
 extension NetworkManager: Network {
     func getData(with endpoint: EndpointProtocol, completion: @escaping ((Result<Data, Error>) -> Void)) {

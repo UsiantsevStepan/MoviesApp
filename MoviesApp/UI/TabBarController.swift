@@ -12,6 +12,8 @@ final class TabBarController: UITabBarController {
     let searchController = UINavigationController(rootViewController: SearchViewController())
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         viewControllers = [moviesViewController, searchController]
         moviesViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
         searchController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)

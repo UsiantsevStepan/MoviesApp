@@ -15,6 +15,7 @@
 		B133C90125AF61550063ED19 /* SearchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B133C90025AF61550063ED19 /* SearchData.swift */; };
 		B13EE066259C67110057567D /* MoviePreviewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13EE060259C67110057567D /* MoviePreviewCellModel.swift */; };
 		B14139AC25A8670C0017895D /* MovieDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14139AB25A8670C0017895D /* MovieDetailsModel.swift */; };
+		B14C951C25B4936E0038E884 /* MovieDetailsTransferData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14C951B25B4936E0038E884 /* MovieDetailsTransferData.swift */; };
 		B151E3462599C5DB001347D9 /* ListName.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151E3452599C5DB001347D9 /* ListName.swift */; };
 		B15615132525F9FA004FD6F1 /* GenreListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15615122525F9FA004FD6F1 /* GenreListData.swift */; };
 		B16F5B8F25A5B86A00AFC1AF /* MoviesMainInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16F5B8E25A5B86A00AFC1AF /* MoviesMainInfoCell.swift */; };
@@ -61,6 +62,7 @@
 		B133C90025AF61550063ED19 /* SearchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchData.swift; sourceTree = "<group>"; };
 		B13EE060259C67110057567D /* MoviePreviewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviePreviewCellModel.swift; sourceTree = "<group>"; };
 		B14139AB25A8670C0017895D /* MovieDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsModel.swift; sourceTree = "<group>"; };
+		B14C951B25B4936E0038E884 /* MovieDetailsTransferData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsTransferData.swift; sourceTree = "<group>"; };
 		B151E3452599C5DB001347D9 /* ListName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListName.swift; sourceTree = "<group>"; };
 		B15615122525F9FA004FD6F1 /* GenreListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreListData.swift; sourceTree = "<group>"; };
 		B16F5B8E25A5B86A00AFC1AF /* MoviesMainInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesMainInfoCell.swift; sourceTree = "<group>"; };
@@ -130,6 +132,9 @@
 		B1041953252350C000EA84C4 /* Movies */ = {
 			isa = PBXGroup;
 			children = (
+				B1C751F6259F50CC00AB0EC2 /* ListViewController.swift */,
+				B1EC4949252349E50015E785 /* MoviesViewController.swift */,
+				B14C951B25B4936E0038E884 /* MovieDetailsTransferData.swift */,
 				B1041954252350C900EA84C4 /* Cells */,
 			);
 			path = Movies;
@@ -165,6 +170,7 @@
 				B14139AB25A8670C0017895D /* MovieDetailsModel.swift */,
 				B187F3AD25ADD64700C7CB89 /* VideoCellModel.swift */,
 				B13EE060259C67110057567D /* MoviePreviewCellModel.swift */,
+				B151E3452599C5DB001347D9 /* ListName.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -217,7 +223,6 @@
 				B1D7989D2524DD06005DE807 /* Models */,
 				B1EC494D25234A240015E785 /* UI */,
 				B1764428251F9615004B6F45 /* AppDelegate.swift */,
-				B151E3452599C5DB001347D9 /* ListName.swift */,
 				B1764434251F9616004B6F45 /* Assets.xcassets */,
 				B11D23482572707700829DF0 /* MoviesApp.xcdatamodeld */,
 				B1764436251F9616004B6F45 /* LaunchScreen.storyboard */,
@@ -289,8 +294,6 @@
 				B1D9D32225AF426D003DB4DD /* Search */,
 				B16F5B8C25A5B81B00AFC1AF /* MovieDetails */,
 				B1041953252350C000EA84C4 /* Movies */,
-				B1C751F6259F50CC00AB0EC2 /* ListViewController.swift */,
-				B1EC4949252349E50015E785 /* MoviesViewController.swift */,
 				B1D46B86259B111D00AFDA4E /* UIViewController+ErrorHandling.swift */,
 				B1D9D31F25AF3E90003DB4DD /* TabBarController.swift */,
 			);
@@ -440,6 +443,7 @@
 				B120560F25A847710019C245 /* MoviesDetailsData.swift in Sources */,
 				B187F3A325ADD1FB00C7CB89 /* MoviePreview+CoreDataClass.swift in Sources */,
 				B1BD317625A5CA9900C3FD82 /* MoviesOverviewCell.swift in Sources */,
+				B14C951C25B4936E0038E884 /* MovieDetailsTransferData.swift in Sources */,
 				B1D798A02524DD35005DE807 /* MoviesListData.swift in Sources */,
 				B14139AC25A8670C0017895D /* MovieDetailsModel.swift in Sources */,
 				B187F39225ADA4E700C7CB89 /* VideosTableViewCell.swift in Sources */,

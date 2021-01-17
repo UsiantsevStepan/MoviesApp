@@ -84,19 +84,22 @@ extension MoviesViewController: MoviesTableViewCellDelegate {
         let controller = MovieDetailsViewController()
         navigationController?.pushViewController(controller, animated: true)
         let movie = movies[indexPath.row]
-        controller.movieId = movie.movieId
-        controller.movieTitle = movie.title
-        controller.movieRating = movie.voteAverage
-        controller.moviePosterPath = movie.posterPath
+        controller.moviePreviewData = MovieDetailsTransferData(
+            posterPath: movie.posterPath,
+            rating: movie.voteAverage,
+            title: movie.title,
+            movieId: movie.movieId
+        )
     }
     
     func showPreview(for movie: MoviePreviewCellModel) -> UIViewController? {
         let detailsController = MovieDetailsViewController()
-        
-        detailsController.movieId = movie.movieId
-        detailsController.movieTitle = movie.title
-        detailsController.movieRating = movie.voteAverage
-        detailsController.moviePosterPath = movie.posterPath
+        detailsController.moviePreviewData = MovieDetailsTransferData(
+            posterPath: movie.posterPath,
+            rating: movie.voteAverage,
+            title: movie.title,
+            movieId: movie.movieId
+        )
         
         return detailsController
     }

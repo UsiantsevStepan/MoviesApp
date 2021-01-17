@@ -14,11 +14,4 @@ extension UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
-    
-    func showSearchResultsError(text: String) {
-        let alert = UIAlertController(title: "No results found", message: "Unfortunately we couln't find a match for '\(text)'. Please try another search.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
-        self.present(alert, animated: true, completion: nil)
-    }
 }

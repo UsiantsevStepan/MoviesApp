@@ -319,7 +319,7 @@ class MoviesManager {
         for video in videos {
             let newVideo = Video(context: self.context)
             
-            guard video?.site == "YouTube" else { return }
+            guard video?.site == "YouTube" else { continue }
             newVideo.key = video?.key
             newVideo.site = video?.site
             newVideo.type = video?.type
@@ -359,7 +359,7 @@ class MoviesManager {
         for video in videos {
             let newVideo = Video(context: self.context)
             
-            guard video?.site == "YouTube" else { return }
+            guard video?.site == "YouTube" else { continue }
             newVideo.key = video?.key
             newVideo.site = video?.site
             newVideo.type = video?.type
